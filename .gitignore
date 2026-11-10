@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local scratch scripts & private docs
+/scratch/
+Saas Nova Website SOW.pdf
