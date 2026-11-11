@@ -221,14 +221,14 @@ const CATEGORIES: CategoryNav[] = [
       {
         id: "prmaas",
         title: "PRMaaS",
-        timelineOrRole: "Telemetry System",
-        stageOrFocus: "Attribution Infrastructure",
+        timelineOrRole: "Free Engagement",
+        stageOrFocus: "Partner Revenue Measurement",
         description:
-          "Zero-leakage revenue tracking connecting CRM to AWS ACE, Azure Partner Center, and GCP.",
+          "End-to-end AWS Partner Revenue Measurement handling resource tagging, Terraform/CDK IaC integration, and compliance validation.",
         deliverables: [
-          "100% deal attribution & tagging hygiene",
-          "Automated bidirectional CRM-to-Cloud sync",
-          "Audit-ready co-sell compliance logs",
+          "Architecture-aware tagging (Partner, Customer, Hybrid)",
+          "Native Terraform, CloudFormation & CDK modules",
+          "Ongoing attribution validation · Free engagement",
         ],
         ctaText: "View PRMaaS Details",
         href: "/solutions/systems-ops#prmaas",
@@ -242,14 +242,14 @@ const CATEGORIES: CategoryNav[] = [
       {
         id: "pcmaas",
         title: "PCMaaS",
-        timelineOrRole: "Workflow Engine",
+        timelineOrRole: "Free Engagement",
         stageOrFocus: "Portal Migration Readiness",
         description:
-          "Frictionless migration and synchronization across fragmented cloud portals without dev lag.",
+          "Zero-disruption AWS Partner Central unified console transition aligning IAM, SSO, Entra ID permissions, and account hierarchies.",
         deliverables: [
-          "Automated deal registration pipelines",
-          "Real-time event notification hooks in Slack",
-          "Partner ecosystem portal readiness",
+          "IAM, SSO & Entra ID permission mapping",
+          "Zero duplicate business registration risk",
+          "Partner & Marketplace console parity · Free",
         ],
         ctaText: "View PCMaaS Details",
         href: "/solutions/systems-ops#pcmaas",
@@ -335,7 +335,7 @@ export default function SolutionsHub() {
                 key={cat.id}
                 className={`relative rounded-2xl transition-all duration-300 ${
                   isActive
-                    ? "p-[2.5px] bg-gradient-to-r from-[#FA0F9C] via-[#7C3AED] to-[#008BF8] shadow-[0_1px_0_#a855f7,0_2px_0_#9333ea,0_3px_0_#7e22ce,0_4px_0_#6b21a8,0_5px_0_#581c87,0_18px_36px_-6px_rgba(250,15,156,0.38)] -translate-y-0.5 scale-[1.01]"
+                    ? "p-[2.5px] bg-gradient-to-r from-[#FA0F9C] via-[#c026d3] to-[#008BF8] shadow-[0_2px_0_#cbd5e1,0_4px_0_#94a3b8,0_18px_36px_-6px_rgba(250,15,156,0.28)] -translate-y-0.5 scale-[1.01]"
                     : ""
                 }`}
               >
@@ -350,7 +350,7 @@ export default function SolutionsHub() {
                 >
                   {/* Active Left Accent Bar (Signature Pink to Blue Gradient) */}
                   {isActive && (
-                    <div className="absolute left-0 inset-y-0 w-2 rounded-r-full bg-gradient-to-b from-[#FA0F9C] via-[#7C3AED] to-[#008BF8]" />
+                    <div className="absolute left-0 inset-y-0 w-2 rounded-r-full bg-gradient-to-b from-[#FA0F9C] via-[#c026d3] to-[#008BF8]" />
                   )}
 
                   {/* Top Subtle Prismatic Glow */}
@@ -364,7 +364,7 @@ export default function SolutionsHub() {
                       <div
                         className={`flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300 ${
                           isActive
-                            ? "text-white shadow-[0_3px_0_rgba(109,40,217,0.8),0_8px_16px_rgba(250,15,156,0.3)] scale-105 bg-gradient-to-br from-[#FA0F9C] via-[#7C3AED] to-[#008BF8] border border-white/50"
+                            ? "text-white shadow-[0_3px_0_rgba(15,23,42,0.35),0_8px_16px_rgba(250,15,156,0.28)] scale-105 btn-gradient border border-white/50"
                             : "icon-3d text-slate-600 group-hover:scale-105 group-hover:text-slate-900"
                         }`}
                       >
@@ -388,7 +388,7 @@ export default function SolutionsHub() {
                     <div
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
                         isActive
-                          ? "bg-gradient-to-r from-[#FA0F9C] to-[#008BF8] text-white shadow-[0_2px_0_rgba(109,40,217,0.7),0_6px_12px_rgba(250,15,156,0.28)] scale-105"
+                          ? "btn-gradient text-white shadow-[0_2px_0_rgba(15,23,42,0.28),0_6px_12px_rgba(250,15,156,0.28)] scale-105"
                           : "bg-slate-100 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1] text-slate-500 group-hover:bg-slate-200 group-hover:text-slate-700"
                       }`}
                     >
@@ -415,7 +415,7 @@ export default function SolutionsHub() {
                       </span>
                     ))}
                     {isActive && (
-                      <span className="ml-auto inline-flex items-center gap-1.5 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full text-white shadow-[0_2px_0_rgba(109,40,217,0.7)] bg-gradient-to-r from-[#FA0F9C] to-[#008BF8]">
+                      <span className="btn-gradient ml-auto inline-flex items-center gap-1.5 text-[10.5px] font-bold px-2.5 py-0.5 rounded-full text-white shadow-[0_2px_0_rgba(15,23,42,0.25)]">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                         Viewing
                       </span>
@@ -438,27 +438,16 @@ export default function SolutionsHub() {
                   : "sm:grid-cols-3"
               } gap-4 lg:gap-5 items-stretch animate-rise w-full`}
             >
-              {currentCategory.items.map((item) => {
-                const IconComponent = item.icon;
-
-                return (
+              {currentCategory.items.map((item) => (
                   <TiltCard
                     key={item.id}
                     variant="light"
                     intensity={10}
                     className="p-5 sm:p-5.5 flex flex-col justify-between"
                   >
-                    {/* Card Top: Icon, Title & Meta */}
+                    {/* Card Top: Meta & Title */}
                     <div>
-                      <div className="flex items-center justify-between mb-3.5">
-                        {/* 3D Keycap Icon */}
-                        <Link
-                          href={item.href}
-                          className="icon-3d flex h-11 w-11 items-center justify-center rounded-xl text-[#008BF8] transition-transform duration-300 hover:scale-105 cursor-pointer"
-                        >
-                          <IconComponent className="h-5 w-5" />
-                        </Link>
-
+                      <div className="flex items-center justify-start mb-3">
                         {/* Stage or Role Capsule */}
                         <span className="inline-flex items-center rounded-full border border-slate-200/90 bg-slate-50 px-2.5 py-0.5 text-[10.5px] font-bold text-slate-700 shadow-[0_2px_0_#e2e8f0]">
                           {item.timelineOrRole}
@@ -500,15 +489,14 @@ export default function SolutionsHub() {
                     <div className="pt-1">
                       <Link
                         href={item.href}
-                        className={`btn-3d group inline-flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-xs font-bold text-white cursor-pointer bg-gradient-to-r ${item.buttonGradient}`}
+                        className="btn-gradient btn-3d group inline-flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-xs font-bold text-white cursor-pointer"
                       >
                         <span>{item.ctaText}</span>
                         <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-white/90" />
                       </Link>
                     </div>
                   </TiltCard>
-                );
-              })}
+              ))}
             </div>
           </div>
         </div>

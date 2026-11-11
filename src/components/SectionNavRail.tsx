@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { scrollToSectionId, normalizeSectionHash } from "@/lib/scrollNavigation";
 
 interface SectionItem {
   id: string;
@@ -65,12 +66,24 @@ const SOLUTIONS_SECTIONS: SectionItem[] = [
   {
     id: "solutions-description",
     number: "02",
-    title: "Detailed Overview",
-    subtitle: "3 Execution Models",
+    title: "Execution Models",
+    subtitle: "3 Engagement Paths",
+  },
+  {
+    id: "compare-matrix",
+    number: "03",
+    title: "Compare Fit",
+    subtitle: "Solutions Matrix",
+  },
+  {
+    id: "faq",
+    number: "04",
+    title: "Common Questions",
+    subtitle: "4 Key Answers",
   },
   {
     id: "solutions-cta",
-    number: "03",
+    number: "05",
     title: "Book Strategy",
     subtitle: "Execution Session",
   },
@@ -79,24 +92,52 @@ const SOLUTIONS_SECTIONS: SectionItem[] = [
 const GROWTH_PROGRAMS_SECTIONS: SectionItem[] = [
   { id: "growth-hero", number: "01", title: "Growth Programs", subtitle: "Packaged Cloud GTM" },
   { id: "program-selection", number: "02", title: "Program Selection", subtitle: "Ignite, SuperNova & NovaX" },
-  { id: "program-details", number: "03", title: "Program Details", subtitle: "Deliverables & Milestones" },
-  { id: "growth-cta", number: "04", title: "Book Briefing", subtitle: "Schedule Program Call" },
+  { id: "ignite", number: "03", title: "Ignite", subtitle: "1 Month · Activation" },
+  { id: "supernova", number: "04", title: "SuperNova", subtitle: "4 Months · US Entry" },
+  { id: "novax", number: "05", title: "NovaX", subtitle: "6 Months · Multi-Cloud" },
+  { id: "growth-cta", number: "06", title: "Book Briefing", subtitle: "Schedule Program Call" },
 ];
 
 const FRACTIONAL_SECTIONS: SectionItem[] = [
   { id: "fractional-hero", number: "01", title: "Fractional Talent", subtitle: "Embedded MaaS Operators" },
   { id: "operator-selection", number: "02", title: "Operator Selection", subtitle: "PDM, PMM & PAL" },
-  { id: "role-details", number: "03", title: "Role Details", subtitle: "Responsibilities & Outputs" },
-  { id: "working-model", number: "04", title: "Working Model", subtitle: "Embedded Slack Cadence" },
-  { id: "fractional-cta", number: "05", title: "Book Operator", subtitle: "Schedule Discovery" },
+  { id: "pdmaas", number: "03", title: "PDMaaS", subtitle: "Pipeline & Co-Sell" },
+  { id: "pmmaas", number: "04", title: "PMMaaS", subtitle: "Messaging & MDF" },
+  { id: "palaas", number: "05", title: "PALaaS", subtitle: "Executive Alliances" },
+  { id: "working-model", number: "06", title: "Working Model", subtitle: "Embedded Slack Cadence" },
+  { id: "fractional-cta", number: "07", title: "Book Operator", subtitle: "Schedule Discovery" },
 ];
 
 const SYSTEMS_OPS_SECTIONS: SectionItem[] = [
   { id: "systems-hero", number: "01", title: "Systems & Ops", subtitle: "Infrastructure & Tooling" },
-  { id: "service-selection", number: "02", title: "Service Selection", subtitle: "PRM, PCM & SFaaS" },
-  { id: "service-details", number: "03", title: "Service Details", subtitle: "Capabilities & Features" },
-  { id: "implementation", number: "04", title: "Implementation", subtitle: "4 Steps & Platforms" },
-  { id: "systems-cta", number: "05", title: "Book Scoping", subtitle: "Schedule Architecture" },
+  { id: "service-selection", number: "02", title: "Service Selection", subtitle: "PRM & PCM" },
+  { id: "prmaas", number: "03", title: "PRMaaS", subtitle: "Revenue Measurement" },
+  { id: "pcmaas", number: "04", title: "PCMaaS", subtitle: "Portal Migration" },
+  { id: "implementation", number: "05", title: "Implementation", subtitle: "4 Steps & Stack" },
+  { id: "systems-cta", number: "06", title: "Book Scoping", subtitle: "Schedule Readiness" },
+];
+
+const STOREFRONT_SECTIONS: SectionItem[] = [
+  { id: "storefront-hero", number: "01", title: "Storefront", subtitle: "AWS Launch Partner" },
+  { id: "what-we-built", number: "02", title: "What We Built", subtitle: "Architecture & Impact" },
+  { id: "sfaas", number: "03", title: "SFaaS", subtitle: "Storefront as a Service" },
+  { id: "ecosystem-validation", number: "04", title: "Validation", subtitle: "AWS & ISV Voices" },
+  { id: "milestone-timeline", number: "05", title: "Timeline", subtitle: "Launch Partner Journey" },
+  { id: "storefront-cta", number: "06", title: "Connect", subtitle: "Explore Storefront" },
+];
+
+const ABOUT_SECTIONS: SectionItem[] = [
+  { id: "about-hero", number: "01", title: "About & Cloud", subtitle: "Cloud-Execution-Native" },
+  { id: "founder", number: "02", title: "CEO & Founder", subtitle: "Jen Dawson Story" },
+  { id: "stars", number: "03", title: "Company Stars", subtitle: "Meet the 10 Operators" },
+  { id: "clients", number: "04", title: "Our Trusted Clients", subtitle: "100+ ISVs Activated" },
+];
+
+const CAREERS_SECTIONS: SectionItem[] = [
+  { id: "careers-hero", number: "01", title: "Careers", subtitle: "Real Pipeline Execution" },
+  { id: "culture", number: "02", title: "Why Build Here", subtitle: "Culture & The Bar" },
+  { id: "open-roles", number: "03", title: "Open Roles", subtitle: "4 Active Positions" },
+  { id: "open-application", number: "04", title: "Open Application", subtitle: "Join the Team" },
 ];
 
 export default function SectionNavRail() {
@@ -111,12 +152,24 @@ export default function SectionNavRail() {
     sections = FRACTIONAL_SECTIONS;
   } else if (pathname === "/solutions/systems-ops") {
     sections = SYSTEMS_OPS_SECTIONS;
+  } else if (pathname === "/solutions/storefront") {
+    sections = STOREFRONT_SECTIONS;
+  } else if (pathname === "/about") {
+    sections = ABOUT_SECTIONS;
+  } else if (pathname === "/careers") {
+    sections = CAREERS_SECTIONS;
   }
 
   const [activeId, setActiveId] = useState<string>(sections[0]?.id || "hero");
 
   useEffect(() => {
-    setActiveId(sections[0]?.id || "hero");
+    const rawHash = typeof window !== "undefined" ? window.location.hash : "";
+    const normalized = rawHash ? normalizeSectionHash(rawHash) : "";
+    if (normalized && sections.some((s) => s.id === normalized)) {
+      setActiveId(normalized);
+    } else {
+      setActiveId(sections[0]?.id || "hero");
+    }
   }, [pathname, sections]);
 
   useEffect(() => {
@@ -130,11 +183,8 @@ export default function SectionNavRail() {
         const sec = sections[i];
         const el = document.getElementById(sec.id);
         if (el) {
-          const innerEl =
-            (el.querySelector(":scope > div > div") as HTMLElement) ||
-            (el.firstElementChild as HTMLElement) ||
-            el;
-          const top = innerEl.getBoundingClientRect().top + scrollY;
+          const paddingTop = parseFloat(window.getComputedStyle(el).paddingTop) || 0;
+          const top = el.getBoundingClientRect().top + scrollY + paddingTop;
           if (viewportMid >= top) {
             setActiveId(sec.id);
             break;
@@ -143,46 +193,29 @@ export default function SectionNavRail() {
       }
     };
 
+    const handleSectionSync = (e: Event) => {
+      const id = (e as CustomEvent<{ id?: string }>).detail?.id;
+      if (id && sections.some((s) => s.id === id)) {
+        setActiveId(id);
+      }
+    };
+
     window.addEventListener("scroll", handleScrollSpy, { passive: true });
+    window.addEventListener("solution-section-change", handleSectionSync);
     handleScrollSpy();
-    return () => window.removeEventListener("scroll", handleScrollSpy);
+    return () => {
+      window.removeEventListener("scroll", handleScrollSpy);
+      window.removeEventListener("solution-section-change", handleSectionSync);
+    };
   }, [sections]);
 
   const scrollTo = (id: string) => {
-    if (id === sections[0]?.id) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setActiveId(id);
-      return;
-    }
-
-    const sectionEl = document.getElementById(id);
-    if (!sectionEl) return;
-
-    // Target the inner component root element directly so the entire section card,
-    // including its top curve, eyebrow pill, and main headline, is 100% visible
-    const innerEl =
-      (sectionEl.querySelector(":scope > div > div") as HTMLElement) ||
-      (sectionEl.firstElementChild as HTMLElement) ||
-      sectionEl;
-
-    // Measure exact sticky header height dynamically (announcement strip + navbar)
-    const headerEl = document.querySelector("header");
-    const headerHeight = headerEl ? headerEl.offsetHeight : 110;
-
-    // Position target cleanly 18px below sticky header
-    const currentScrollY =
-      window.pageYOffset || document.documentElement.scrollTop || 0;
-    const targetRect = innerEl.getBoundingClientRect();
-    const targetY = Math.max(
-      0,
-      Math.round(targetRect.top + currentScrollY - headerHeight - 18)
-    );
-
-    window.scrollTo({
-      top: targetY,
-      behavior: "smooth",
+    scrollToSectionId(id, {
+      topIfFirst: true,
+      firstSectionId: sections[0]?.id,
+      updateHash: true,
+      notifySelection: true,
     });
-
     setActiveId(id);
   };
 
@@ -231,7 +264,7 @@ export default function SectionNavRail() {
                 <div
                   className={`rounded-full transition-all duration-300 ease-out ${
                     isActive
-                      ? "w-2 h-7 bg-gradient-to-b from-[#FA0F9C] via-[#7C3AED] to-[#008BF8] shadow-[0_0_14px_rgba(250,15,156,0.55)] scale-105"
+                      ? "w-2 h-7 bg-gradient-to-b from-[#FA0F9C] via-[#c026d3] to-[#008BF8] shadow-[0_0_14px_rgba(250,15,156,0.55)] scale-105"
                       : "w-1.5 h-4.5 bg-slate-300/85 group-hover:bg-slate-500 group-hover:h-6"
                   }`}
                 />

@@ -114,7 +114,7 @@ export default function Footer() {
             </div>
             <ul className="space-y-1.5 text-xs">
               <li><Link href="/solutions" className="text-slate-400 hover:text-white transition">All Solutions</Link></li>
-              <li><Link href="/solutions/storefront" className="text-slate-400 hover:text-white transition">Storefront (AWS)</Link></li>
+              <li><Link href="/solutions/storefront" className="text-slate-400 hover:text-white transition">Storefront &amp; SFaaS</Link></li>
               <li><Link href="/solutions/growth-programs#ignite" className="text-slate-400 hover:text-white transition">Ignite</Link></li>
               <li><Link href="/solutions/growth-programs#supernova" className="text-slate-400 hover:text-white transition">SuperNova</Link></li>
               <li><Link href="/solutions/growth-programs#novax" className="text-slate-400 hover:text-white transition">NovaX</Link></li>
@@ -130,8 +130,8 @@ export default function Footer() {
               <li><Link href="/solutions/fractional-operators#pdmaas" className="text-slate-400 hover:text-white transition">PDMaaS · Pipeline</Link></li>
               <li><Link href="/solutions/fractional-operators#pmmaas" className="text-slate-400 hover:text-white transition">PMMaaS · Messaging</Link></li>
               <li><Link href="/solutions/fractional-operators#palaas" className="text-slate-400 hover:text-white transition">PALaaS · Alliances</Link></li>
-              <li><Link href="/solutions/systems-ops#prmaas" className="text-slate-400 hover:text-white transition">PRMaaS · Attribution</Link></li>
-              <li><Link href="/solutions/systems-ops#pcmaas" className="text-slate-400 hover:text-white transition">PCMaaS · Portal Sync</Link></li>
+              <li><Link href="/solutions/systems-ops#prmaas" className="text-slate-400 hover:text-white transition">PRMaaS · Revenue Measurement</Link></li>
+              <li><Link href="/solutions/systems-ops#pcmaas" className="text-slate-400 hover:text-white transition">PCMaaS · Portal Migration</Link></li>
             </ul>
           </div>
 
@@ -141,11 +141,11 @@ export default function Footer() {
               Company
             </div>
             <ul className="space-y-1.5 text-xs">
-              <li><Link href="#trust" className="text-slate-400 hover:text-white transition">About &amp; Team</Link></li>
+              <li><Link href="/about" className="text-slate-400 hover:text-white transition">About &amp; Team</Link></li>
               <li><Link href="#trust" className="text-slate-400 hover:text-white transition">Case Studies</Link></li>
               <li><Link href="#trust" className="text-slate-400 hover:text-white transition">The Jen GTM Show</Link></li>
               <li><Link href="#trust" className="text-slate-400 hover:text-white transition">Partners</Link></li>
-              <li><Link href="mailto:careers@saasnova.ai" className="text-slate-400 hover:text-white transition">Careers</Link></li>
+              <li><Link href="/careers" className="text-slate-400 hover:text-white transition">Careers</Link></li>
             </ul>
           </div>
 
@@ -166,7 +166,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="px-3.5 py-1.5 rounded-md bg-[#FA0F9C] hover:bg-pink-600 text-white text-xs font-bold transition-all cursor-pointer shrink-0"
+                  className="btn-gradient btn-3d px-3.5 py-1.5 rounded-md text-white text-xs font-bold transition-all cursor-pointer shrink-0"
                 >
                   {subscribed ? <Check className="w-3.5 h-3.5" /> : "Join"}
                 </button>

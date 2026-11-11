@@ -29,6 +29,7 @@ import {
   Newspaper,
   CheckCircle2,
   LayoutGrid,
+  Store,
 } from "lucide-react";
 
 const CALENDLY =
@@ -38,11 +39,13 @@ export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [activeSubmenu, setActiveSubmenu] = useState<"programs" | "services" | "ops" | null>(null);
+  const [activeSubmenu, setActiveSubmenu] = useState<"programs" | "services" | "ops" | "storefront" | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
   const isHome = pathname === "/";
   const isSolutions = pathname.startsWith("/solutions");
+  const isAbout = pathname === "/about";
+  const isCareers = pathname === "/careers";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,7 +75,7 @@ export default function Navbar() {
           <Link
             href={CALENDLY}
             target="_blank"
-            className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-900 text-white text-[10.5px] font-bold hover:bg-[#FA0F9C] transition-all shadow-2xs cursor-pointer shrink-0"
+            className="btn-gradient inline-flex items-center gap-1 px-3 py-1 rounded-full text-white text-[10.5px] font-bold transition-all shadow-2xs cursor-pointer shrink-0"
           >
             <span>View Bundle</span>
             <ArrowRight className="w-3 h-3" />
@@ -173,34 +176,91 @@ export default function Navbar() {
                         </div>
                       </Link>
 
-                      {/* 2. Storefront */}
-                      <Link
-                        href="/solutions/storefront"
-                        onClick={() => {
-                          setActiveDropdown(null);
-                          setActiveSubmenu(null);
-                        }}
-                        onMouseEnter={() => setActiveSubmenu(null)}
-                        className="flex items-center gap-3 p-2 rounded-xl bg-gradient-to-r from-sky-50/50 via-slate-50/70 to-pink-50/40 hover:from-sky-50 hover:to-pink-50/70 border border-slate-200/60 transition-all group cursor-pointer"
+                      {/* 2. Storefront (with hover submenu) */}
+                      <div
+                        className="relative"
+                        onMouseEnter={() => setActiveSubmenu("storefront")}
                       >
-                        <div className="w-9 h-9 rounded-xl overflow-hidden bg-[#070D1E] p-1 flex items-center justify-center border border-slate-900/10 shadow-xs shrink-0">
-                          <Image
-                            src="/logo-favicon.png"
-                            alt="Storefront"
-                            width={22}
-                            height={22}
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-bold text-[13px] text-slate-900 group-hover:text-[#008BF8] transition-colors leading-tight">
-                            Storefront
+                        <Link
+                          href="/solutions/storefront"
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            setActiveSubmenu(null);
+                          }}
+                          className={`flex items-center gap-3 p-2 rounded-xl bg-gradient-to-r from-sky-50/50 via-slate-50/70 to-pink-50/40 hover:from-sky-50 hover:to-pink-50/70 border border-slate-200/60 transition-all group cursor-pointer ${
+                            activeSubmenu === "storefront" ? "ring-1 ring-[#008BF8]/25" : ""
+                          }`}
+                        >
+                          <div className="w-9 h-9 rounded-xl overflow-hidden bg-[#070D1E] p-1 flex items-center justify-center border border-slate-900/10 shadow-xs shrink-0">
+                            <Image
+                              src="/logo-favicon.png"
+                              alt="Storefront"
+                              width={22}
+                              height={22}
+                              className="w-full h-full object-contain"
+                            />
                           </div>
-                          <div className="text-[11.5px] text-slate-500 font-medium leading-tight mt-0.5">
-                            Marketplace Solutions &amp; SFaaS
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold text-[13px] text-slate-900 group-hover:text-[#008BF8] transition-colors leading-tight">
+                                Storefront
+                              </span>
+                              <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#008BF8] group-hover:translate-x-0.5 transition-all" />
+                            </div>
+                            <div className="text-[11.5px] text-slate-500 font-medium leading-tight mt-0.5">
+                              Marketplace Solutions &amp; SFaaS
+                            </div>
                           </div>
-                        </div>
-                      </Link>
+                        </Link>
+
+                        {activeSubmenu === "storefront" && (
+                          <div
+                            className="card-3d-master absolute left-full top-0 ml-1.5 w-[260px] rounded-[22px] backdrop-blur-2xl p-2 space-y-1 animate-in fade-in slide-in-from-left-1 duration-150 z-50 before:absolute before:top-0 before:-left-3 before:w-3 before:h-full"
+                          >
+                            <Link
+                              href="/solutions/storefront#what-we-built"
+                              onClick={() => {
+                                setActiveDropdown(null);
+                                setActiveSubmenu(null);
+                              }}
+                              className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-sky-50 transition-colors group cursor-pointer"
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-sky-50 text-[#008BF8] flex items-center justify-center shrink-0">
+                                <Sparkles className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-[12.5px] text-slate-900 group-hover:text-[#008BF8] transition-colors leading-tight">
+                                  AWS Launch Partner
+                                </div>
+                                <div className="text-[11px] text-slate-500 font-medium leading-tight mt-0.5">
+                                  Storefront Architecture
+                                </div>
+                              </div>
+                            </Link>
+
+                            <Link
+                              href="/solutions/storefront#sfaas"
+                              onClick={() => {
+                                setActiveDropdown(null);
+                                setActiveSubmenu(null);
+                              }}
+                              className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-pink-50 transition-colors group cursor-pointer"
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-pink-50 text-[#FA0F9C] flex items-center justify-center shrink-0">
+                                <Store className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-[12.5px] text-slate-900 group-hover:text-[#FA0F9C] transition-colors leading-tight">
+                                  SFaaS
+                                </div>
+                                <div className="text-[11px] text-slate-500 font-medium leading-tight mt-0.5">
+                                  Storefront as a Service
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        )}
+                      </div>
 
                       <div className="h-[1px] bg-slate-100 my-1.5" />
 
@@ -460,7 +520,7 @@ export default function Navbar() {
                                   PRMaaS
                                 </div>
                                 <div className="text-[11px] text-slate-500 font-medium leading-tight mt-0.5">
-                                  Attribution Infrastructure
+                                  Revenue Measurement (Free)
                                 </div>
                               </div>
                             </Link>
@@ -481,7 +541,7 @@ export default function Navbar() {
                                   PCMaaS
                                 </div>
                                 <div className="text-[11px] text-slate-500 font-medium leading-tight mt-0.5">
-                                  Portal Migration Readiness
+                                  Portal Migration (Free)
                                 </div>
                               </div>
                             </Link>
@@ -496,8 +556,12 @@ export default function Navbar() {
 
               {/* ── 2. ABOUT (DIRECT LINK) ── */}
               <Link
-                href="#trust"
-                className="px-3 py-1 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/50 rounded-full transition-colors"
+                href="/about"
+                className={`px-3 py-1 text-xs rounded-full transition-all ${
+                  isAbout
+                    ? "text-[#008BF8] font-bold bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] -translate-y-[1px]"
+                    : "font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/50"
+                }`}
               >
                 About
               </Link>
@@ -650,8 +714,12 @@ export default function Navbar() {
 
               {/* ── 5. CAREERS (DIRECT LINK) ── */}
               <Link
-                href="mailto:careers@saasnova.ai?subject=Operator%20Role%20Inquiry"
-                className="px-3 py-1 text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60 rounded-full transition-colors"
+                href="/careers"
+                className={`px-3 py-1 text-xs rounded-full transition-all ${
+                  isCareers
+                    ? "text-[#008BF8] font-bold bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] -translate-y-[1px]"
+                    : "font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60"
+                }`}
               >
                 Careers
               </Link>
@@ -757,13 +825,23 @@ export default function Navbar() {
                   >
                     All Solutions <span className="text-[10px] font-normal text-slate-500 font-mono">(Full Suite)</span>
                   </Link>
-                  <Link
-                    href="/solutions/storefront"
-                    onClick={() => setMobileOpen(false)}
-                    className="block py-1 text-xs font-bold text-slate-800 hover:text-[#008BF8]"
-                  >
-                    Storefront <span className="text-[10px] font-normal text-slate-500">(Marketplace &amp; SFaaS)</span>
-                  </Link>
+                  <div className="pt-1">
+                    <Link
+                      href="/solutions/storefront"
+                      onClick={() => setMobileOpen(false)}
+                      className="block py-1 text-xs font-bold text-slate-800 hover:text-[#008BF8]"
+                    >
+                      Storefront <span className="text-[10px] font-normal text-slate-500">(Marketplace &amp; SFaaS)</span>
+                    </Link>
+                    <div className="pl-2 space-y-0.5 text-[11px] text-slate-600">
+                      <Link href="/solutions/storefront#what-we-built" onClick={() => setMobileOpen(false)} className="block py-0.5 hover:text-[#008BF8]">
+                        • AWS Launch Partner <span className="text-slate-400">(Architecture)</span>
+                      </Link>
+                      <Link href="/solutions/storefront#sfaas" onClick={() => setMobileOpen(false)} className="block py-0.5 hover:text-[#7C3AED]">
+                        • SFaaS <span className="text-slate-400">(Storefront as a Service)</span>
+                      </Link>
+                    </div>
+                  </div>
 
                   <div className="pt-1">
                     <Link
@@ -817,19 +895,19 @@ export default function Navbar() {
                     </Link>
                     <div className="pl-2 space-y-0.5 text-[11px] text-slate-600">
                       <Link href="/solutions/systems-ops#prmaas" onClick={() => setMobileOpen(false)} className="block py-0.5 hover:text-emerald-600">
-                        • PRMaaS <span className="text-slate-400">(Attribution Infra)</span>
+                        • PRMaaS <span className="text-slate-400">(Revenue Measurement)</span>
                       </Link>
                       <Link href="/solutions/systems-ops#pcmaas" onClick={() => setMobileOpen(false)} className="block py-0.5 hover:text-emerald-600">
-                        • PCMaaS <span className="text-slate-400">(Portal Readiness)</span>
+                        • PCMaaS <span className="text-slate-400">(Portal Migration)</span>
                       </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <Link href="#trust" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">About</Link>
+              <Link href="/about" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">About</Link>
               <Link href="#trust" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Partners</Link>
               <Link href="#how-we-execute" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Resources</Link>
-              <Link href="mailto:careers@saasnova.ai" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Careers</Link>
+              <Link href="/careers" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Careers</Link>
               <Link href="#contact" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Contact</Link>
               <div className="pt-2 px-2">
                 <Link

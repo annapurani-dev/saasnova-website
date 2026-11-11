@@ -46,9 +46,9 @@ export default function StorefrontSection() {
 
             {/* 3 Core Architecture Pillars with 3D Extruded Depth & Tilt */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-              <TiltCard variant="light" intensity={8} className="p-4 rounded-2xl space-y-2">
-                <div className="icon-3d w-9 h-9 rounded-xl text-[#008BF8] flex items-center justify-center">
-                  <Store className="w-4 h-4" />
+              <TiltCard variant="light" intensity={8} className="p-4 rounded-2xl space-y-1.5">
+                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#008BF8]">
+                  01 · Architecture
                 </div>
                 <div className="font-bold text-xs text-slate-900">Branded Seller Architecture</div>
                 <p className="text-[11px] text-slate-500 leading-snug">
@@ -56,9 +56,9 @@ export default function StorefrontSection() {
                 </p>
               </TiltCard>
 
-              <TiltCard variant="light" intensity={8} className="p-4 rounded-2xl space-y-2">
-                <div className="icon-3d w-9 h-9 rounded-xl text-[#FA0F9C] flex items-center justify-center">
-                  <ShieldCheck className="w-4 h-4" />
+              <TiltCard variant="light" intensity={8} className="p-4 rounded-2xl space-y-1.5">
+                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FA0F9C]">
+                  02 · Enablement
                 </div>
                 <div className="font-bold text-xs text-slate-900">ISV Ecosystem Enablement</div>
                 <p className="text-[11px] text-slate-500 leading-snug">
@@ -66,9 +66,9 @@ export default function StorefrontSection() {
                 </p>
               </TiltCard>
 
-              <TiltCard variant="light" intensity={8} className="p-4 rounded-2xl space-y-2">
-                <div className="icon-3d w-9 h-9 rounded-xl text-[#7C3AED] flex items-center justify-center">
-                  <Sparkles className="w-4 h-4" />
+              <TiltCard variant="light" intensity={8} className="p-4 rounded-2xl space-y-1.5">
+                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#008BF8]">
+                  03 · Co-Selling
                 </div>
                 <div className="font-bold text-xs text-slate-900">Real-World Cloud Co-Selling</div>
                 <p className="text-[11px] text-slate-500 leading-snug">
