@@ -33,7 +33,7 @@ const STOREFRONT_HASH_IDS = [
 ] as const;
 
 export default function StorefrontPage() {
-  const handleSectionSelect = useCallback(() => {}, []);
+  const handleSectionSelect = useCallback(() => { }, []);
   useSolutionHashNavigation(STOREFRONT_HASH_IDS, handleSectionSelect);
 
   return (
@@ -166,78 +166,78 @@ export default function StorefrontPage() {
           </div>
 
           <div className="well-recessed rounded-[2rem] p-4 sm:p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Quote 1: AWS Product Lead */}
-            <TiltCard variant="light" intensity={7} className="rounded-3xl p-7 flex flex-col justify-between space-y-5">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 text-slate-800 border border-slate-200 text-xs font-bold font-mono shadow-[0_2px_0_#e2e8f0]">
-                  <Image src="/aws-logo.png" alt="AWS" width={16} height={16} className="h-3 w-auto object-contain" />
-                  <span>Marketplace Product</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Quote 1: AWS Product Lead */}
+              <TiltCard variant="light" intensity={7} className="rounded-3xl p-7 flex flex-col justify-between space-y-5">
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 text-slate-800 border border-slate-200 text-xs font-bold font-mono shadow-[0_2px_0_#e2e8f0]">
+                    <Image src="/aws-logo.png" alt="AWS" width={16} height={16} className="h-3 w-auto object-contain" />
+                    <span>Marketplace Product</span>
+                  </div>
+                  <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+                    &ldquo;We&apos;re excited to have SaaSNova as a launch partner for AWS Marketplace Storefront. Their hands-on experience supporting ISVs and channel partners, combined with their ability to operationalize cloud GTM motions, makes them a strong partner for helping organizations adopt Storefront quickly and effectively.&rdquo;
+                  </blockquote>
                 </div>
-                <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  &ldquo;We&apos;re excited to have SaaSNova as a launch partner for AWS Marketplace Storefront. Their hands-on experience supporting ISVs and channel partners, combined with their ability to operationalize cloud GTM motions, makes them a strong partner for helping organizations adopt Storefront quickly and effectively.&rdquo;
-                </blockquote>
-              </div>
-              <div className="pt-3 border-t border-slate-200/70 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#008BF8] to-[#005ea6] text-white flex items-center justify-center font-bold text-xs shadow-[0_3px_0_#004480]">
-                  HK
-                </div>
-                <div>
-                  <div className="font-bold text-xs text-slate-900">Hussein Khazaal</div>
-                  <div className="text-[11px] text-slate-500 font-medium">
-                    Sr. Manager of Product, AWS Marketplace Storefront
+                <div className="pt-3 border-t border-slate-200/70 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#008BF8] to-[#005ea6] text-white flex items-center justify-center font-bold text-xs shadow-[0_3px_0_#004480]">
+                    HK
+                  </div>
+                  <div>
+                    <div className="font-bold text-xs text-slate-900">Hussein Khazaal</div>
+                    <div className="text-[11px] text-slate-500 font-medium">
+                      Sr. Manager of Product, AWS Marketplace Storefront
+                    </div>
                   </div>
                 </div>
-              </div>
-            </TiltCard>
+              </TiltCard>
 
-            {/* Quote 2: Global ISV CEO */}
-            <TiltCard variant="light" intensity={7} className="rounded-3xl p-7 flex flex-col justify-between space-y-5">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-[#FA0F9C] border border-pink-200 text-xs font-bold font-mono shadow-[0_2px_0_#fbcfe8]">
-                  <Award className="w-3.5 h-3.5" />
-                  <span>Global ISV CEO</span>
+              {/* Quote 2: Global ISV CEO */}
+              <TiltCard variant="light" intensity={7} className="rounded-3xl p-7 flex flex-col justify-between space-y-5">
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-[#FA0F9C] border border-pink-200 text-xs font-bold font-mono shadow-[0_2px_0_#fbcfe8]">
+                    <Award className="w-3.5 h-3.5" />
+                    <span>Global ISV CEO</span>
+                  </div>
+                  <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+                    &ldquo;As a global ISV organization, having a partner like SaaSNova gives us a strategic advantage in how we continue to grow our customer reach through new features such as the AWS Marketplace Storefront. Their operator-level understanding of cloud GTM helped us move faster, simplify operations, and unlock revenue pathways.&rdquo;
+                  </blockquote>
                 </div>
-                <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  &ldquo;As a global ISV organization, having a partner like SaaSNova gives us a strategic advantage in how we continue to grow our customer reach through new features such as the AWS Marketplace Storefront. Their operator-level understanding of cloud GTM helped us move faster, simplify operations, and unlock revenue pathways.&rdquo;
-                </blockquote>
-              </div>
-              <div className="pt-3 border-t border-slate-200/70 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FA0F9C] to-[#BE185D] text-white flex items-center justify-center font-bold text-xs shadow-[0_3px_0_#831843]">
-                  BS
-                </div>
-                <div>
-                  <div className="font-bold text-xs text-slate-900">Barinder Singh</div>
-                  <div className="text-[11px] text-slate-500 font-medium">
-                    CEO, PharmacoEvidence
+                <div className="pt-3 border-t border-slate-200/70 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FA0F9C] to-[#BE185D] text-white flex items-center justify-center font-bold text-xs shadow-[0_3px_0_#831843]">
+                    BS
+                  </div>
+                  <div>
+                    <div className="font-bold text-xs text-slate-900">Barinder Singh</div>
+                    <div className="text-[11px] text-slate-500 font-medium">
+                      CEO, PharmacoEvidence
+                    </div>
                   </div>
                 </div>
-              </div>
-            </TiltCard>
+              </TiltCard>
 
-            {/* Quote 3: Operator Perspective */}
-            <TiltCard variant="light" intensity={7} className="rounded-3xl p-7 flex flex-col justify-between space-y-5">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 text-[#008BF8] border border-sky-200 text-xs font-bold font-mono shadow-[0_2px_0_#bae6fd]">
-                  <span>Operator Perspective</span>
+              {/* Quote 3: Operator Perspective */}
+              <TiltCard variant="light" intensity={7} className="rounded-3xl p-7 flex flex-col justify-between space-y-5">
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 text-[#008BF8] border border-sky-200 text-xs font-bold font-mono shadow-[0_2px_0_#bae6fd]">
+                    <span>Operator Perspective</span>
+                  </div>
+                  <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+                    &ldquo;By simplifying marketplace operations and reducing friction, we enable ISVs and partners to focus on what matters most: executing high-velocity GTM motions and building repeatable revenue engines with AWS.&rdquo;
+                  </blockquote>
                 </div>
-                <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  &ldquo;By simplifying marketplace operations and reducing friction, we enable ISVs and partners to focus on what matters most: executing high-velocity GTM motions and building repeatable revenue engines with AWS.&rdquo;
-                </blockquote>
-              </div>
-              <div className="pt-3 border-t border-slate-200/70 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#008BF8] to-[#FA0F9C] text-white flex items-center justify-center font-bold text-xs shadow-[0_3px_0_#1e293b]">
-                  JD
-                </div>
-                <div>
-                  <div className="font-bold text-xs text-slate-900">Jen Dawson</div>
-                  <div className="text-[11px] text-slate-500 font-medium">
-                    Founder &amp; CEO, SaaSNova
+                <div className="pt-3 border-t border-slate-200/70 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#008BF8] to-[#FA0F9C] text-white flex items-center justify-center font-bold text-xs shadow-[0_3px_0_#1e293b]">
+                    JD
+                  </div>
+                  <div>
+                    <div className="font-bold text-xs text-slate-900">Jen Dawson</div>
+                    <div className="text-[11px] text-slate-500 font-medium">
+                      Founder &amp; CEO, SaaSNova
+                    </div>
                   </div>
                 </div>
-              </div>
-            </TiltCard>
-          </div>
+              </TiltCard>
+            </div>
           </div>
         </ScrollReveal>
       </section>
@@ -353,49 +353,49 @@ export default function StorefrontPage() {
         <ScrollReveal once={false} variant="up" className="mx-auto max-w-4xl text-center">
           <div className="card-3d-master-dark p-[2.5px] rounded-[2.5rem] bg-gradient-to-r from-[#FA0F9C] via-[#7C3AED] to-[#008BF8] text-white relative overflow-hidden">
             <div className="bg-[#070D1E] rounded-[calc(2.5rem-2.5px)] p-8 sm:p-12 lg:p-14 relative overflow-hidden">
-            {/* Prismatic glow */}
-            <div className="pointer-events-none absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#008BF8]/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-[#FA0F9C]/20 blur-3xl" />
+              {/* Prismatic glow */}
+              <div className="pointer-events-none absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[#008BF8]/20 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-[#FA0F9C]/20 blur-3xl" />
 
-            <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-slate-200">
-                OFFICIAL AWS LAUNCH PARTNER
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
-                Explore our Storefront or connect with our team.
-              </h2>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                Take a look at our live presence on AWS Marketplace, or schedule a 30-minute founder strategy session to discuss your cloud GTM trajectory.
-              </p>
+              <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-slate-200">
+                  OFFICIAL AWS LAUNCH PARTNER
+                </span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight">
+                  Explore our Storefront or connect with our team.
+                </h2>
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                  Take a look at our live presence on AWS Marketplace, or schedule a 30-minute founder strategy session to discuss your cloud GTM trajectory.
+                </p>
 
-              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 pt-2">
-                <Link
-                  href={STOREFRONT_LIVE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-gradient btn-3d inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-white text-xs sm:text-sm font-bold w-full sm:w-auto cursor-pointer"
-                >
-                  <span>Explore the Storefront</span>
-                  <ExternalLink className="w-4 h-4" />
-                </Link>
-                <Link
-                  href={CALENDLY}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-3d inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white text-slate-950 hover:bg-slate-100 text-xs sm:text-sm font-bold w-full sm:w-auto cursor-pointer"
-                >
-                  <Calendar className="w-4 h-4" />
-                  <span>Book a 30-min Session</span>
-                </Link>
-                <Link
-                  href="/solutions"
-                  className="btn-3d inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white text-xs sm:text-sm font-bold transition-all w-full sm:w-auto"
-                >
-                  <span>View All Solutions</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 pt-2">
+                  <Link
+                    href={STOREFRONT_LIVE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-gradient btn-3d inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-white text-xs sm:text-sm font-bold w-full sm:w-auto cursor-pointer"
+                  >
+                    <span>Explore the Storefront</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </Link>
+                  <Link
+                    href={CALENDLY}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-3d inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white text-slate-950 hover:bg-slate-100 text-xs sm:text-sm font-bold w-full sm:w-auto cursor-pointer"
+                  >
+                    <Calendar className="w-4 h-4" />
+                    <span>Book a 30-min Session</span>
+                  </Link>
+                  <Link
+                    href="/solutions"
+                    className="btn-3d inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white text-xs sm:text-sm font-bold transition-all w-full sm:w-auto"
+                  >
+                    <span>View All Solutions</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </ScrollReveal>

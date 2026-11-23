@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { scrollToSectionId, normalizeSectionHash } from "@/lib/scrollNavigation";
 
 interface SectionItem {
@@ -140,8 +140,32 @@ const CAREERS_SECTIONS: SectionItem[] = [
   { id: "open-application", number: "04", title: "Open Application", subtitle: "Join the Team" },
 ];
 
-export default function SectionNavRail() {
+const CONTACT_SECTIONS: SectionItem[] = [
+  { id: "contact-hero", number: "01", title: "Strategy Session", subtitle: "Overview & Calendar" },
+  { id: "send-message", number: "02", title: "Send Message", subtitle: "Inquiry Form" },
+];
+
+const SUPPORT_SECTIONS: SectionItem[] = [
+  { id: "support-hero", number: "01", title: "Support Desk", subtitle: "Overview & Commitments" },
+  { id: "support-ticket", number: "02", title: "Submit Ticket", subtitle: "Support Request Form" },
+];
+
+const CLOUD_MARKETPLACE_SECTIONS: SectionItem[] = [
+  { id: "cloud-hero", number: "01", title: "Cloud Overview", subtitle: "Amazonians, Microsofties & Googlers" },
+  { id: "cloud-nexus", number: "02", title: "Cloud Partner GTM", subtitle: "AWS, Azure & GCP" },
+  { id: "sme-registration-form", number: "03", title: "SME Registration", subtitle: "Intake Form" },
+];
+
+const ALLIANCE_SECTIONS: SectionItem[] = [
+  { id: "alliance-hero", number: "01", title: "Alliances Overview", subtitle: "Tools & Delivery Network" },
+  { id: "alliance-network", number: "02", title: "Alliance Network", subtitle: "SaaSify, Workspan, Pronix, Carahsoft" },
+  { id: "delivery-pillars", number: "03", title: "Delivery Pillars", subtitle: "How Alliances Execute" },
+];
+
+function SectionNavRailContent() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const partnerView = searchParams.get("view");
 
   let sections = HOME_SECTIONS;
   if (pathname === "/solutions") {
@@ -158,6 +182,12 @@ export default function SectionNavRail() {
     sections = ABOUT_SECTIONS;
   } else if (pathname === "/careers") {
     sections = CAREERS_SECTIONS;
+  } else if (pathname === "/contact") {
+    sections = CONTACT_SECTIONS;
+  } else if (pathname === "/support") {
+    sections = SUPPORT_SECTIONS;
+  } else if (pathname === "/partners") {
+    sections = partnerView === "strategic-alliances" ? ALLIANCE_SECTIONS : CLOUD_MARKETPLACE_SECTIONS;
   }
 
   const [activeId, setActiveId] = useState<string>(sections[0]?.id || "hero");
@@ -209,6 +239,18 @@ export default function SectionNavRail() {
     };
   }, [sections]);
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    const checkDrawer = () => {
+      setIsDrawerOpen(document.body.getAttribute("data-drawer-open") === "true");
+    };
+    checkDrawer();
+    const observer = new MutationObserver(checkDrawer);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["data-drawer-open"] });
+    return () => observer.disconnect();
+  }, []);
+
   const scrollTo = (id: string) => {
     scrollToSectionId(id, {
       topIfFirst: true,
@@ -219,10 +261,12 @@ export default function SectionNavRail() {
     setActiveId(id);
   };
 
+  if (isDrawerOpen) return null;
+
   return (
     <aside
       aria-label="Section quick navigation"
-      className="fixed right-3 sm:right-5 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-end gap-2.5 select-none pointer-events-auto"
+      className="fixed right-3 sm:right-5 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-end gap-2.5 select-none pointer-events-auto transition-opacity duration-200"
     >
       {/* Floating subtle background pill to give clean contrast over light/dark content */}
       <div className="flex flex-col items-center gap-2 py-3 px-1.5 rounded-full bg-white/80 backdrop-blur-md border border-slate-200/70 shadow-[0_4px_24px_rgba(15,23,42,0.08)]">
@@ -274,5 +318,13 @@ export default function SectionNavRail() {
         })}
       </div>
     </aside>
+  );
+}
+
+export default function SectionNavRail() {
+  return (
+    <Suspense fallback={null}>
+      <SectionNavRailContent />
+    </Suspense>
   );
 }

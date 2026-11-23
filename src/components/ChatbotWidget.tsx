@@ -92,7 +92,7 @@ export default function ChatbotWidget() {
           <div className="relative z-10 flex items-center justify-between border-b border-slate-200/70 bg-white/50 px-4 py-3.5 backdrop-blur-md">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#008BF8] via-[#7C3AED] to-[#FA0F9C] p-[1.5px] shadow-lg shadow-pink-500/20">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#008BF8] to-[#FA0F9C] p-[1.5px] shadow-lg shadow-sky-500/20">
                   <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-slate-950 overflow-hidden">
                     <NovaLiveBot size={38} isTyping={typing} />
                   </div>
@@ -256,7 +256,7 @@ export default function ChatbotWidget() {
           ) : (
             <div className="relative flex items-center justify-center">
               {/* Soft luminous ambient aura behind bot */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#008BF8]/30 via-[#7C3AED]/25 to-[#FA0F9C]/30 blur-xl scale-125" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#008BF8]/25 to-[#FA0F9C]/25 blur-xl scale-125" />
 
               {/* Live Animated Nova Bot Mascot */}
               <div className="relative z-10 filter drop-shadow-[0_12px_24px_rgba(15,23,42,0.25)]">
@@ -280,12 +280,12 @@ export default function ChatbotWidget() {
             aria-label="Open chat with Spark"
           >
             {/* Ambient soft glow */}
-            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#008BF8] via-[#7C3AED] to-[#FA0F9C] opacity-25 blur-md transition-opacity duration-300 group-hover/bubble:opacity-55" />
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#008BF8] to-[#FA0F9C] opacity-25 blur-md transition-opacity duration-300 group-hover/bubble:opacity-55" />
 
             {/* Bubble Container with delicate brand border */}
-            <div className="relative rounded-2xl bg-gradient-to-r from-[#008BF8]/70 via-[#7C3AED]/70 to-[#FA0F9C]/70 p-[1.5px] shadow-[0_8px_24px_rgba(15,23,42,0.18)]">
+            <div className="relative rounded-2xl bg-gradient-to-r from-[#008BF8]/70 to-[#FA0F9C]/70 p-[1.5px] shadow-[0_8px_24px_rgba(15,23,42,0.18)]">
               {/* Upward pointing pointer tail centered directly below the bot circle */}
-              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 h-3 w-3 rotate-45 border-l border-t border-purple-400/80 bg-slate-950" />
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 h-3 w-3 rotate-45 border-l border-t border-sky-400/70 bg-slate-950" />
 
               <div className="relative flex flex-col items-center rounded-[14px] bg-slate-950/95 px-3.5 py-2 backdrop-blur-xl">
                 <p className="text-[11.5px] font-semibold leading-snug text-slate-200">
@@ -293,7 +293,7 @@ export default function ChatbotWidget() {
                   <span className="block text-[11px] font-normal text-slate-300">
                     Have questions?
                   </span>
-                  <span className="mt-0.5 inline-block bg-gradient-to-r from-pink-400 via-fuchsia-300 to-sky-400 bg-clip-text text-[11px] font-bold text-transparent">
+                  <span className="mt-0.5 inline-block bg-gradient-to-r from-[#FA0F9C] to-[#008BF8] bg-clip-text text-[11px] font-bold text-transparent">
                     Let&apos;s speak &rarr;
                   </span>
                 </p>

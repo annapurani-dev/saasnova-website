@@ -147,7 +147,7 @@ const COMMON_QUESTIONS = [
 ];
 
 export default function SolutionsPage() {
-  const handleSectionSelect = useCallback(() => {}, []);
+  const handleSectionSelect = useCallback(() => { }, []);
   useSolutionHashNavigation(SOLUTIONS_HASH_IDS, handleSectionSelect);
 
   return (

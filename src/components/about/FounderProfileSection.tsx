@@ -1,23 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Check } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-
-const FOUNDER_PILLARS = [
-  {
-    title: "Execution, not advisory.",
-    body: "Every program has named, documented deliverables, not recommendations.",
-  },
-  {
-    title: "True multi-cloud depth.",
-    body: "AWS, Azure, and GCP are equally supported, not afterthoughts.",
-  },
-  {
-    title: "Board-visible output.",
-    body: "Every program produces a clear pipeline report boards and investors can present directly.",
-  },
-];
 
 export default function FounderProfileSection() {
   return (
@@ -25,129 +9,143 @@ export default function FounderProfileSection() {
       id="founder"
       data-nav-title="CEO & Founder"
       data-nav-subtitle="Jen Dawson Story"
-      className="relative px-3 py-5 sm:px-6 lg:px-8 lg:min-h-[calc(100vh-5rem)] lg:flex lg:items-center scroll-mt-28"
+      style={{
+        background: "linear-gradient(180deg, #070D1E 0%, #0A1228 50%, #050A16 100%)",
+      }}
+      className="relative px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-24 sm:pb-32 lg:pb-36 text-white scroll-mt-24 select-none overflow-hidden"
     >
-      <ScrollReveal once={false} variant="up" className="mx-auto max-w-7xl w-full">
-        <div className="card-3d-master relative rounded-[2.25rem] p-5 sm:p-7 lg:p-9 overflow-hidden">
-          {/* Subtle top specular accent */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#008BF8]/70 via-[#FA0F9C]/70 to-transparent" />
+      {/* ── Top Horizon Boundary Divider ── */}
+      <div className="absolute inset-x-0 top-0 h-[1.5px] pointer-events-none z-20" aria-hidden="true">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#008BF8]/60 via-[#FA0F9C]/50 to-transparent opacity-90" />
+      </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-9 items-center relative z-10">
-            {/* ── LEFT COLUMN: COMPACT 3D PORTRAIT & PROOF CHIPS ── */}
-            <div className="lg:col-span-5 space-y-3">
-              <div className="well-recessed rounded-3xl p-2.5 sm:p-3 max-w-[380px] mx-auto lg:max-w-none relative">
-                <div className="relative aspect-[5/4] w-full overflow-hidden rounded-2xl bg-slate-100 border border-white/90 shadow-md">
-                  <Image
-                    src="/jen-headshot.png"
-                    alt="Jen Dawson, Founder and CEO of SaaSNova"
-                    width={800}
-                    height={800}
-                    priority
-                    fetchPriority="high"
-                    className="w-full h-full object-cover object-[50%_15%]"
-                  />
+      {/* ── Central Radial Ambient Glow ── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] lg:w-[1200px] h-[550px] bg-[radial-gradient(ellipse_at_center,rgba(0,139,248,0.2)_0%,rgba(250,15,156,0.08)_40%,transparent_70%)] blur-[110px]"
+      />
 
-                  {/* Bottom-Right Floating 3D Experience Chip */}
-                  <div className="card-3d absolute bottom-2.5 right-2.5 rounded-xl px-3.5 py-2 bg-white/95 backdrop-blur-md">
-                    <div className="text-lg sm:text-xl font-black text-[#008BF8] leading-none">
-                      25+
-                    </div>
-                    <div className="text-[10.5px] font-bold text-slate-600 mt-0.5">
-                      Years Cloud GTM
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 2 Compact Raised Proof Keycaps Below Portrait */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 max-w-[380px] mx-auto lg:max-w-none">
-                <div className="card-3d px-3.5 py-2.5 rounded-2xl flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-xs font-extrabold text-slate-900">
-                      AWS · Azure · GCP
-                    </div>
-                    <div className="text-[11px] text-slate-500 font-medium">
-                      Multi-cloud execution
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <span title="Amazon Web Services" className="icon-3d inline-flex items-center justify-center h-7 px-2 rounded-lg">
-                      <Image src="/aws-logo.png" alt="AWS" width={16} height={16} className="h-3 w-auto object-contain" />
-                    </span>
-                    <span title="Microsoft Azure" className="icon-3d inline-flex items-center justify-center h-7 px-2 rounded-lg">
-                      <Image src="/azure-logo.png" alt="Azure" width={16} height={16} className="h-3 w-auto object-contain" />
-                    </span>
-                    <span title="Google Cloud" className="icon-3d inline-flex items-center justify-center h-7 px-2 rounded-lg">
-                      <Image src="/gcp-logo.png" alt="GCP" width={16} height={16} className="h-3 w-auto object-contain" />
-                    </span>
-                  </div>
-                </div>
-
-                <div className="card-3d px-3.5 py-2.5 rounded-2xl flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-xs font-extrabold text-slate-900">
-                      100+ ISVs Activated
-                    </div>
-                    <div className="text-[11px] text-slate-500 font-medium">
-                      New Relic, Druva, Freshworks &amp; more
-                    </div>
-                  </div>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-pink-50 border border-pink-200/80 text-[10px] font-mono font-bold text-[#FA0F9C] shrink-0">
-                    PROVEN SCALE
-                  </span>
-                </div>
+      <ScrollReveal once={false} variant="up" className="mx-auto max-w-6xl w-full relative z-10">
+        
+        {/* ════════════════════════════════════════════════════════════════════════════
+            INTEGRATED 2-COLUMN SPREAD (STORY ARC)
+            Left: Jen Dawson Cutout (jen-dp-cutout.png) with Ambient Gradient Aura
+            Right:
+              1. Title ("Meet Jen Dawson" - no dot, no line) & Subtitle
+              2. Story Arc (3 High-End Cards):
+                 - Who She Is Now
+                 - Her Experience
+                 - Her Philosophy
+              3. The Quote (Authentic Founder Statement)
+            ════════════════════════════════════════════════════════════════════════════ */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* ── Left Column (4 cols): Cutout Image with Luminous Back-Aura + Identity + Role ── */}
+          <div className="lg:col-span-4 flex flex-col items-center text-center space-y-4">
+            <div className="relative flex items-center justify-center">
+              {/* Vibrant ambient gradient aura glow directly behind cutout */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] rounded-full bg-gradient-to-tr from-[#FA0F9C]/35 via-[#008BF8]/40 to-cyan-400/30 blur-3xl opacity-90"
+              />
+              
+              {/* Transparent Cutout of Jen Dawson (jen-dp-cutout.png) */}
+              <div className="relative z-10 w-56 sm:w-64 lg:w-72">
+                <Image
+                  src="/jen-dp-cutout.png"
+                  alt="Jen Dawson, Founder and CEO of SaaSNova"
+                  width={400}
+                  height={400}
+                  priority
+                  className="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.65)]"
+                />
               </div>
             </div>
 
-            {/* ── RIGHT COLUMN: THE SAASNOVA STORY & EXECUTION PILLARS ── */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="space-y-1.5">
-                <span className="inline-flex items-center px-3 py-0.5 rounded-full bg-sky-50 border border-sky-200 text-[10.5px] font-mono font-bold uppercase tracking-wider text-[#008BF8]">
-                  THE SAASNOVA STORY
-                </span>
-                <h2 className="text-xl sm:text-2xl lg:text-[32px] font-black text-slate-900 tracking-tight leading-[1.15]">
-                  Why execution, not advice, is the only thing that produces pipeline.
-                </h2>
-              </div>
-
-              {/* Highlighted Pull Quote in 3D Card */}
-              <div className="card-3d rounded-2xl p-4 sm:p-5 relative overflow-hidden">
-                <div className="btn-gradient absolute left-0 inset-y-0 w-1.5 rounded-r-full" />
-                <blockquote className="pl-3 text-xs sm:text-[13.5px] text-slate-700 leading-relaxed italic">
-                  &ldquo;Every ISV I worked with faced the same pattern: listed on AWS, Azure, or GCP; submissions filed; cloud field teams unresponsive; and nothing attributable showing up at the board level. I fell in love with this problem because it was universal and absolutely solvable. SaaSNova exists because this isn&apos;t a marketplace problem. It&apos;s an execution problem across the entire cloud GTM motion.&rdquo;
-                </blockquote>
-                <div className="pl-3 mt-2 text-xs font-bold text-slate-900">
-                  Jen Dawson, <span className="text-slate-500 font-semibold">Founder &amp; CEO, SaaSNova</span>
-                </div>
-              </div>
-
-              {/* Narrative Copy */}
-              <div className="space-y-2.5 text-xs sm:text-[13.5px] text-slate-600 leading-relaxed">
-                <p>
-                  After years embedded in cloud ecosystems, building marketplace programs on AWS, managing ISV Accelerate motions, and developing the field relationships that drive momentum on Azure and GCP, Jen founded SaaSNova to fill a gap no platform or consultancy was filling: operator-led execution.
-                </p>
-                <p>
-                  Platforms give ISVs listing infrastructure. Consultancies give ISVs frameworks. Neither drives field enablement, activates partner programs, or unlocks marketplace momentum. SaaSNova does all of it, directly, as an embedded operator with clear deliverables in every program period.
-                </p>
-              </div>
-
-              {/* 3 Proof Pillars Inside Recessed Well */}
-              <div className="well-recessed rounded-2xl p-3.5 sm:p-4 space-y-2">
-                {FOUNDER_PILLARS.map((pillar) => (
-                  <div key={pillar.title} className="flex items-start gap-2.5">
-                    <div className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 mt-0.5 shadow-[0_1.5px_0_#a7f3d0]">
-                      <Check className="w-2.5 h-2.5 stroke-[3]" />
-                    </div>
-                    <p className="text-xs sm:text-[13px] text-slate-700 leading-snug">
-                      <strong className="text-slate-900">{pillar.title}</strong> {pillar.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
+            {/* Direct Name, Byline, & Current Role Under Image */}
+            <div className="space-y-1.5 max-w-[300px]">
+              <h3 className="text-2xl sm:text-[26px] font-black text-white tracking-tight">
+                Jen Dawson
+              </h3>
+              <p className="text-sm sm:text-[15px] font-bold text-[#008BF8]">
+                Founder &amp; CEO, SaaSNova
+              </p>
+              <p className="text-sm text-slate-300 leading-relaxed font-normal pt-0.5">
+                Leading multi-cloud GTM operations across AWS, Azure, and Google Cloud
+              </p>
             </div>
           </div>
+
+          {/* ── Right Column (8 cols): Headline + Manifesto Quote with Top-Right " + 2-Column Console ── */}
+          <div className="lg:col-span-8 space-y-8 text-left">
+            
+            {/* Clean Headline (No Period, No Line Below) */}
+            <div className="space-y-1.5">
+              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-white tracking-tight leading-[1.12]">
+                Meet Jen Dawson
+              </h2>
+              <p className="text-base sm:text-lg text-slate-300 font-medium">
+                A visionary leader driving SaaSNova&apos;s growth and impact
+              </p>
+            </div>
+
+            {/* Prominent Manifesto Quote with Brand Blue Accent Line & Transparent Top-Right Quotation Mark */}
+            <div className="relative pl-6 sm:pl-7 border-l-[3px] border-[#008BF8]">
+              {/* Subtle transparent quotation watermark at top-right */}
+              <div
+                aria-hidden="true"
+                className="absolute -top-4 right-0 sm:right-2 text-6xl sm:text-7xl lg:text-8xl font-serif text-white/10 pointer-events-none select-none leading-none"
+              >
+                &rdquo;
+              </div>
+
+              <blockquote className="relative z-10 text-lg sm:text-xl lg:text-[22px] text-slate-100 font-medium leading-[1.6] tracking-tight italic font-sans pr-6 sm:pr-10">
+                &ldquo;Every ISV I worked with faced the same pattern: listed on AWS, Azure, or GCP; submissions filed; cloud field teams unresponsive; and nothing visible about our work at the board level. I fell in love with this challenge.&rdquo;
+              </blockquote>
+            </div>
+
+            {/* ── 2-Section Linear Story Console (Her Experience & Her Philosophy) ── */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-6 border-t border-white/10">
+              
+              {/* Console 01: Her Experience */}
+              <div className="sm:pr-8 py-4 sm:py-0 space-y-2">
+                <h4 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                  Her Experience
+                </h4>
+                <p className="text-sm sm:text-base text-slate-200/90 leading-relaxed font-normal">
+                  25+ years in cloud GTM · Former AWS Principal GTM Lead scaling 100+ marketplace ISVs
+                </p>
+              </div>
+
+              {/* Console 02: Her Philosophy */}
+              <div className="sm:pl-8 py-4 sm:py-0 space-y-2">
+                <h4 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                  Her Philosophy
+                </h4>
+                <p className="text-sm sm:text-base text-slate-200/90 leading-relaxed font-normal">
+                  Execution over advice · Hands-on field deliverables instead of theoretical slide decks
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
+
       </ScrollReveal>
+
+      {/* ── Signature Downward Curved Arc Wave Transition (Matching Live Site Hero Bottom) ── */}
+      <div className="absolute -bottom-[1px] inset-x-0 w-full pointer-events-none z-20">
+        <svg
+          className="w-full h-10 sm:h-14 lg:h-20 text-white fill-current block"
+          viewBox="0 0 1440 80"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path d="M0,0 C360,65 1080,65 1440,0 L1440,80 L0,80 Z" />
+        </svg>
+      </div>
     </section>
   );
 }

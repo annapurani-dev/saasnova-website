@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <rect width="200" height="60" rx="8" fill="transparent"/>
+  <!-- Government Star & Shield Icon -->
+  <g transform="translate(14, 12)">
+    <path d="M18 0L23.5 11.2L36 13L27 21.8L29.1 34.2L18 28.3L6.9 34.2L9 21.8L0 13L12.5 11.2L18 0Z" fill="#008BF8"/>
+    <path d="M18 7L21.5 14.5L29.5 15.7L23.7 21.3L25.1 29.3L18 25.5L10.9 29.3L12.3 21.3L6.5 15.7L14.5 14.5L18 7Z" fill="#FA0F9C"/>
+  </g>
+  <!-- Text CARAHSOFT -->
+  <text x="60" y="31" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="900" fill="#0F172A" letter-spacing="-0.3">carahsoft</text>
+  <text x="60" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">PUBLIC SECTOR IT</text>
+</svg>

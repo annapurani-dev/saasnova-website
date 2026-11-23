@@ -2,77 +2,35 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
-  ChevronDown,
-  ExternalLink,
+  CheckCircle2,
   MapPin,
   X,
-  CheckCircle2,
+  Send,
+  Lock,
+  ChevronDown,
 } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import { OPEN_ROLES, ROLE_SELECT_OPTIONS, type CareerRole } from "./careersData";
+import { OPEN_ROLES, ROLE_SELECT_OPTIONS } from "./careersData";
 
-function EcosystemBadgeList({
-  ecosystems,
-  darkSurface,
-}: {
-  ecosystems: CareerRole["ecosystems"];
-  darkSurface: boolean;
-}) {
-  const logoMap: Record<string, string> = {
-    AWS: "/aws-logo.png",
-    Azure: "/azure-logo.png",
-    GCP: "/gcp-logo.png",
-  };
+const LINKEDIN_JOBS_URL = "https://www.linkedin.com/company/saasnova/jobs/";
 
+function LinkedInIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
-      {ecosystems.map((eco) => {
-        const src = logoMap[eco];
-        if (src) {
-          return (
-            <span
-              key={eco}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
-                darkSurface
-                  ? "bg-white/[0.08] border-white/15 text-slate-200"
-                  : "bg-slate-50 border-slate-200/90 text-slate-700"
-              }`}
-            >
-              <Image
-                src={src}
-                alt={eco}
-                width={14}
-                height={14}
-                className={`w-3 h-3 object-contain ${
-                  darkSurface && eco === "AWS" ? "brightness-0 invert" : ""
-                }`}
-              />
-              {eco}
-            </span>
-          );
-        }
-        return (
-          <span
-            key={eco}
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
-              darkSurface
-                ? "bg-amber-500/15 border-amber-400/30 text-amber-300"
-                : "bg-orange-50 border-orange-200/90 text-orange-700"
-            }`}
-          >
-            {eco}
-          </span>
-        );
-      })}
-    </div>
+    <svg className={`${className} text-[#0077B5] fill-current shrink-0`} viewBox="0 0 24 24">
+      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+    </svg>
   );
 }
 
 export default function OpenRolesSection() {
-  const [selectedId, setSelectedId] = useState<string>(OPEN_ROLES[0].id);
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
+
+  const handleRoleToggle = (roleId: string) => {
+    setSelectedRoleId((prev) => (prev === roleId ? null : roleId));
+  };
+
   const [modalOpen, setModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -84,16 +42,9 @@ export default function OpenRolesSection() {
   const [roleValue, setRoleValue] = useState("");
   const [whyRole, setWhyRole] = useState("");
   const [background, setBackground] = useState("");
-  const [consent, setConsent] = useState(false);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const dossierBodyRef = useRef<HTMLDivElement>(null);
-
-  const selectedRole =
-    OPEN_ROLES.find((r) => r.id === selectedId) || OPEN_ROLES[0];
-
-  const modalRoleMeta = OPEN_ROLES.find((r) => r.applyOption === roleValue);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -104,13 +55,6 @@ export default function OpenRolesSection() {
       dialog.close();
     }
   }, [modalOpen]);
-
-  const handleSelectRole = (roleId: string) => {
-    setSelectedId(roleId);
-    if (dossierBodyRef.current) {
-      dossierBodyRef.current.scrollTop = 0;
-    }
-  };
 
   const openApplyModal = (preselectedRole: string) => {
     setRoleValue(preselectedRole);
@@ -149,612 +93,553 @@ export default function OpenRolesSection() {
 
   return (
     <>
-      {/* ── SECTION 3: MATCHED-HEIGHT DARK #070D1E SPLIT ROLE WORKBENCH ── */}
+      {/* ── OPEN ROLES SECTION ── */}
       <section
         id="open-roles"
         data-nav-title="Open Roles"
-        data-nav-subtitle="4 Active Positions"
-        className="relative px-3 py-8 sm:px-6 lg:px-8 scroll-mt-24"
+        data-nav-subtitle="Active Positions"
+        className="relative px-4 sm:px-6 lg:px-8 py-14 sm:py-18 bg-transparent border-b border-slate-200/60 scroll-mt-24 select-none"
       >
-        <ScrollReveal once={false} variant="up" className="mx-auto max-w-7xl">
-          <div className="card-3d-master-dark relative p-[2.5px] rounded-[2.25rem] bg-gradient-to-r from-[#FA0F9C] via-[#008BF8] to-[#FA0F9C] text-white">
-            <div className="relative bg-[#070D1E] rounded-[calc(2.25rem-2.5px)] px-4 py-6 sm:p-7 lg:p-8 overflow-clip space-y-5 backdrop-blur-2xl">
-              {/* Top Specular Rim & Ambient Glows */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 via-pink-400/75 to-transparent" />
-              <div className="pointer-events-none absolute -top-24 left-1/3 w-[480px] h-56 rounded-full bg-[#008BF8]/16 blur-[100px]" />
+        <ScrollReveal once={false} variant="up" className="mx-auto max-w-6xl">
+          <div className="space-y-6 sm:space-y-8">
+            {/* Header (No Eyebrow) */}
+            <div className="text-center space-y-2 max-w-3xl mx-auto">
+              <h2 className="text-3xl sm:text-4xl lg:text-4xl font-black text-slate-900 tracking-tight">
+                Operating Bench &amp; Open Positions.
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                Click any role pill below to inspect deliverables, scope of ownership, and apply directly.
+              </p>
+            </div>
 
-              {/* Compact Workbench Header */}
-              <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-white/10 pb-4">
-                <div className="space-y-1">
-                  <span className="inline-flex items-center px-3 py-0.5 rounded-full border border-white/15 bg-white/10 text-[10.5px] font-mono font-bold uppercase tracking-wider text-slate-200 backdrop-blur-sm">
-                    OPEN POSITIONS · 04 ACTIVE
-                  </span>
-                  <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                    Open <span className="text-gradient">Roles.</span>
-                  </h2>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-300 max-w-md leading-relaxed">
-                  Select a role on the left to inspect ownership, requirements, and apply directly.
-                </p>
-              </div>
+            {/* ── 1. BENTO-STYLE ROLE CARDS ── */}
+            <div className="max-w-5xl mx-auto">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                {OPEN_ROLES.map((role) => {
+                  const isSelected = selectedRoleId === role.id;
 
-              {/* Matched-Height Workbench Split */}
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 items-stretch">
-                {/* LEFT COLUMN: Sleek Compact Selector Keycaps (Matched Height) */}
-                <div className="lg:col-span-5 well-recessed-dark rounded-[1.75rem] p-3 flex flex-col justify-between gap-2.5">
-                  {OPEN_ROLES.map((role) => {
-                    const isSelected = role.id === selectedRole.id;
-                    return (
-                      <button
-                        key={role.id}
-                        type="button"
-                        onClick={() => handleSelectRole(role.id)}
-                        aria-pressed={isSelected}
-                        className={`w-full text-left rounded-2xl p-3.5 sm:p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2.5 relative overflow-hidden ${
-                          isSelected
-                            ? "card-3d-dark-active !scale-100 !translate-y-0"
-                            : "card-3d-dark hover:-translate-y-0.5"
+                  return (
+                    <button
+                      key={role.id}
+                      type="button"
+                      data-role-tab={role.id}
+                      onClick={() => handleRoleToggle(role.id)}
+                      className={`w-full text-left rounded-2xl cursor-pointer h-[112px] sm:h-[122px] ${isSelected
+                        ? "p-[2px] bg-gradient-to-r from-[#FA0F9C] via-[#008BF8] to-[#008BF8] shadow-[0_4px_0_#bae6fd]"
+                        : "card-3d bg-white border border-slate-200/90 hover:border-slate-300 p-4 sm:p-5 flex flex-col justify-between gap-2.5"
                         }`}
+                    >
+                      <div
+                        className={
+                          isSelected
+                            ? "w-full h-full bg-white rounded-[14px] p-3.5 sm:p-[18px] flex flex-col justify-between gap-2.5"
+                            : "w-full h-full flex flex-col justify-between gap-2.5"
+                        }
                       >
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="space-y-1 min-w-0">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-[9.5px] font-mono font-bold text-emerald-300">
-                                OPEN
-                              </span>
-                              <span className="text-[10px] font-mono font-bold text-slate-300">
-                                {role.code}
-                              </span>
-                            </div>
-                            <h3 className="text-sm sm:text-[15px] font-black text-white leading-snug">
-                              {role.fullTitle}
-                            </h3>
+                        {/* Top: Role Title (fixed typography across all states to prevent size shifts) */}
+                        <div className="flex items-start justify-between gap-1.5 min-w-0 w-full">
+                          <span
+                            className={`font-bold tracking-tight leading-snug line-clamp-2 text-xs sm:text-[13.5px] ${isSelected ? "text-slate-900 font-extrabold" : "text-slate-700"
+                              }`}
+                          >
+                            {role.title}
+                          </span>
+                          {isSelected && (
+                            <span className="w-2 h-2 rounded-full bg-[#008BF8] shadow-[0_0_6px_#008BF8] shrink-0 mt-1" />
+                          )}
+                        </div>
+
+                        {/* Bottom: Location Badge (fixed typography across all states) */}
+                        <div className="w-full">
+                          <span
+                            className={`inline-flex items-center gap-1 font-mono text-[10.5px] sm:text-[11px] px-2.5 py-0.5 rounded-full border transition-colors truncate max-w-full ${isSelected
+                              ? "bg-white text-slate-800 font-bold border-[#008BF8]/30 shadow-2xs"
+                              : "bg-slate-100 text-slate-600 font-semibold border-slate-200"
+                              }`}
+                          >
+                            <MapPin className={`w-2.5 h-2.5 shrink-0 ${isSelected ? "text-[#008BF8]" : "text-slate-500"}`} />
+                            <span className="truncate">{role.cardLocation}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+              {!selectedRoleId && (
+                <p className="text-center text-xs text-slate-500 font-bold mt-4">
+                  ↑ Select a position to view details &amp; apply
+                </p>
+              )}
+            </div>
+
+            {/* ── 3. EXPANSIVE FULL-WIDTH DOSSIER (WORD-FOR-WORD COPY, NO RANDOM ICONS, NO BLACK BOX) ── */}
+            <div className="max-w-5xl mx-auto pt-2">
+              {!selectedRoleId && (
+                <div
+                  id="role-empty-state"
+                  className="card-3d rounded-3xl p-8 sm:p-12 text-center max-w-5xl mx-auto space-y-3 bg-white/70 border border-slate-200/80 shadow-xs"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-sky-50 text-[#008BF8] border border-sky-100 flex items-center justify-center mx-auto shadow-xs">
+                    <MapPin className="w-6 h-6 text-[#008BF8]" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                    Select a Position to View Role Details
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed font-normal">
+                    Click any open role card above to inspect deliverables, scope of ownership, compensation, and direct application options.
+                  </p>
+                </div>
+              )}
+
+              {OPEN_ROLES.map((role) => {
+                const isSelected = selectedRoleId === role.id;
+
+                return (
+                  <div
+                    key={role.id}
+                    data-role-dossier={role.id}
+                    style={{ display: isSelected ? "block" : "none" }}
+                    className={`card-3d rounded-3xl p-6 sm:p-9 lg:p-10 space-y-8 ${isSelected ? "block" : "hidden"
+                      }`}
+                  >
+                    {/* Dossier Header Row with Prominent Location & Both Buttons */}
+                    <div className="space-y-4 pb-6 border-b border-slate-100">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="space-y-2">
+                          {/* Prominent Location Tag */}
+                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-300 text-xs font-mono font-bold text-slate-800">
+                            <MapPin className="w-3.5 h-3.5 text-[#008BF8]" />
+                            <span>{role.detailLocation || role.cardLocation}</span>
+                            <span className="text-slate-400">·</span>
+                            <span className="text-slate-600 font-normal">{role.workMode}</span>
                           </div>
 
-                          <ArrowRight
-                            className={`w-4 h-4 shrink-0 mt-1 transition-transform ${
-                              isSelected
-                                ? "text-cyan-300 translate-x-0.5"
-                                : "text-slate-400"
-                            }`}
-                          />
+                          <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-black text-slate-900 tracking-tight">
+                            {role.fullTitle}
+                          </h3>
                         </div>
 
-                        <p className="text-[11.5px] text-slate-300 leading-relaxed line-clamp-2">
-                          {role.cardSummary}
-                        </p>
-
-                        <div className="pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
-                          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-300">
-                            <MapPin className="w-3 h-3 text-sky-400 shrink-0" />
-                            {role.cardLocation}
-                          </span>
-                          <EcosystemBadgeList ecosystems={role.ecosystems} darkSurface />
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* RIGHT COLUMN: Crisp White Role Dossier (Exact Matched Height via Grid-Stretch + Absolute Fill on Desktop) */}
-                <div className="lg:col-span-7 relative">
-                  <div className="w-full lg:absolute lg:inset-0 rounded-[1.75rem] bg-white text-slate-900 border border-slate-200/90 shadow-[0_2px_0_#e2e8f0,0_4px_0_#cbd5e1,0_20px_44px_-8px_rgba(0,0,0,0.45),inset_0_1px_0_#ffffff] flex flex-col overflow-hidden">
-                    <div className="h-1.5 w-full bg-gradient-to-r from-[#FA0F9C] via-[#008BF8] to-[#FA0F9C] shrink-0" />
-
-                    {/* Pinned Dossier Header */}
-                    <div className="px-5 pt-4 pb-3.5 sm:px-6 border-b border-slate-200/80 space-y-2.5 shrink-0 bg-white">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-50 border border-sky-200 text-[10px] font-mono font-bold text-[#008BF8]">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                            OPEN
-                          </span>
-                          <span className="text-xs font-mono font-bold text-slate-500">
-                            {selectedRole.code}
-                          </span>
-                        </div>
-
-                        <EcosystemBadgeList
-                          ecosystems={selectedRole.ecosystems}
-                          darkSurface={false}
-                        />
-                      </div>
-
-                      <div>
-                        <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                          {selectedRole.fullTitle}
-                        </h3>
-                        <div className="flex flex-wrap items-center gap-2 mt-2 text-[11.5px] font-medium text-slate-600">
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-slate-100 border border-slate-200/80">
-                            <MapPin className="w-3 h-3 text-[#008BF8]" />
-                            {selectedRole.detailLocation}
-                          </span>
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg bg-slate-100 border border-slate-200/80">
-                            {selectedRole.workMode}
-                          </span>
+                        {/* Both Action Buttons: Apply Now & Apply on LinkedIn */}
+                        <div className="flex flex-wrap items-center gap-3 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => openApplyModal(role.applyOption)}
+                            className="group inline-flex items-center justify-center gap-2 rounded-full px-6 h-[46px] text-xs sm:text-sm font-extrabold text-white whitespace-nowrap cursor-pointer bg-gradient-to-r from-[#FA0F9C] to-[#C8008A] shadow-[0_4px_18px_rgba(250,15,156,0.32)] hover:shadow-[0_8px_24px_rgba(250,15,156,0.45)] hover:-translate-y-0.5 active:scale-[0.98] transition-all"
+                          >
+                            <span>Apply Now</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </button>
+                          <a
+                            href={LINKEDIN_JOBS_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-slate-200/90 hover:border-[#008BF8]/60 bg-white hover:bg-slate-50 px-5 h-[46px] text-xs sm:text-sm font-bold text-slate-800 whitespace-nowrap shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+                          >
+                            <LinkedInIcon className="w-4 h-4" />
+                            <span>Apply on LinkedIn</span>
+                          </a>
                         </div>
                       </div>
                     </div>
 
-                    {/* Scrollable Internal Role Specification Tray */}
-                    <div
-                      ref={dossierBodyRef}
-                      className="flex-1 min-h-0 overflow-y-auto px-5 py-4 sm:px-6 space-y-4 bg-slate-50/60 overscroll-contain"
-                    >
-                      {/* ABOUT THE ROLE */}
-                      <div className="rounded-xl bg-white border border-slate-200/90 p-3.5 sm:p-4 space-y-1.5 shadow-2xs">
-                        <h4 className="text-[10.5px] font-mono font-black uppercase tracking-wider text-[#008BF8]">
-                          ABOUT THE ROLE
-                        </h4>
-                        <p className="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
-                          {selectedRole.aboutRole}
-                        </p>
-                      </div>
+                    {/* Word-for-Word: About the Role */}
+                    <div className="bg-[#F0F7FF] border border-sky-200/90 shadow-[0_2px_0_#bae6fd] rounded-2xl p-6 space-y-2">
+                      <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#008BF8]">
+                        ABOUT THE ROLE
+                      </h4>
+                      <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
+                        {role.aboutRole}
+                      </p>
+                    </div>
 
-                      {/* WHAT YOU WILL OWN */}
-                      <div className="space-y-2.5">
-                        <h4 className="text-[10.5px] font-mono font-black uppercase tracking-wider text-[#008BF8]">
-                          WHAT YOU WILL OWN
-                        </h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                          {selectedRole.ownership.map((group) => (
-                            <div
-                              key={group.title}
-                              className="rounded-xl bg-white border border-slate-200/90 p-3.5 space-y-1.5 shadow-2xs"
-                            >
-                              <div className="text-xs font-black text-slate-900">
-                                {group.title}
-                              </div>
-                              <ul className="space-y-1">
-                                {group.bullets.map((b) => (
-                                  <li
-                                    key={b}
-                                    className="text-[11.5px] text-slate-600 leading-snug flex items-start gap-1.5"
-                                  >
-                                    <span className="w-1 h-1 rounded-full bg-[#008BF8] mt-1.5 shrink-0" />
-                                    <span>{b}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* WHO YOU ARE + WORK ENVIRONMENT + WHAT YOU WILL GAIN */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <div className="rounded-xl bg-white border border-slate-200/90 p-3.5 space-y-2 shadow-2xs">
-                          <h4 className="text-[10.5px] font-mono font-black uppercase tracking-wider text-[#008BF8]">
-                            WHO YOU ARE
-                          </h4>
-                          {selectedRole.whoYouAreIntro && (
-                            <p className="text-[11.5px] text-slate-600 leading-relaxed">
-                              {selectedRole.whoYouAreIntro}
-                            </p>
-                          )}
-                          <ul className="space-y-1">
-                            {selectedRole.whoYouAre.map((item) => (
-                              <li
-                                key={item}
-                                className="text-[11.5px] text-slate-700 leading-snug flex items-start gap-1.5"
-                              >
-                                <span className="text-emerald-600 font-bold shrink-0">✓</span>
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          {selectedRole.whoYouAreOutro && (
-                            <p className="text-[11px] font-medium text-slate-700 pt-1">
-                              {selectedRole.whoYouAreOutro}
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="space-y-2.5">
-                          <div className="rounded-xl bg-white border border-slate-200/90 p-3.5 space-y-1.5 shadow-2xs">
-                            <h4 className="text-[10.5px] font-mono font-black uppercase tracking-wider text-[#FA0F9C]">
-                              WHAT YOU WILL GAIN
-                            </h4>
-                            <ul className="space-y-1">
-                              {selectedRole.whatYouWillGain.map((g) => (
+                    {/* Word-for-Word: What You Will Own & Deliver */}
+                    <div className="space-y-4">
+                      <h4 className="text-xs font-mono font-black uppercase tracking-wider text-slate-800">
+                        WHAT YOU WILL OWN &amp; DELIVER
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {role.ownership.map((group) => (
+                          <div
+                            key={group.title}
+                            className="card-3d rounded-2xl p-6 space-y-3 hover:border-[#008BF8]/60 transition-all duration-200"
+                          >
+                            <h5 className="text-sm sm:text-base font-bold text-slate-900">
+                              {group.title}
+                            </h5>
+                            <ul className="space-y-2 pl-4">
+                              {group.bullets.map((b) => (
                                 <li
-                                  key={g.label}
-                                  className="text-[11.5px] text-slate-700 leading-snug"
+                                  key={b}
+                                  className="text-xs sm:text-[13.5px] text-slate-600 leading-relaxed list-disc marker:text-[#008BF8]"
                                 >
-                                  <strong className="text-slate-900">{g.label}:</strong>{" "}
-                                  {g.description}
+                                  {b}
                                 </li>
                               ))}
                             </ul>
                           </div>
-
-                          {selectedRole.workEnvironment && (
-                            <div className="rounded-xl bg-white border border-slate-200/90 p-3.5 space-y-1.5 shadow-2xs">
-                              <h4 className="text-[10.5px] font-mono font-black uppercase tracking-wider text-[#008BF8]">
-                                WORK ENVIRONMENT
-                              </h4>
-                              <ul className="space-y-1">
-                                {selectedRole.workEnvironment.map((env) => (
-                                  <li
-                                    key={env}
-                                    className="text-[11.5px] text-slate-700 leading-snug flex items-start gap-1.5"
-                                  >
-                                    <span className="w-1 h-1 rounded-full bg-[#FA0F9C] mt-1.5 shrink-0" />
-                                    <span>{env}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Pinned Dossier Action Footer */}
-                    <div className="px-5 py-3.5 sm:px-6 border-t border-slate-200/80 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
-                      <div className="space-y-0.5 max-w-md">
-                        <div className="text-[10px] font-mono font-black uppercase tracking-wider text-slate-500">
-                          HOW TO APPLY
+                    {/* Word-for-Word: Candidate Profile & Work Environment / Upside */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+                      {/* Who You Are */}
+                      <div className="card-3d rounded-2xl p-6 space-y-3.5">
+                        <h4 className="text-xs font-mono font-black uppercase tracking-wider text-slate-800">
+                          WHO YOU ARE
+                        </h4>
+                        {role.whoYouAreIntro && (
+                          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+                            {role.whoYouAreIntro}
+                          </p>
+                        )}
+                        <ul className="space-y-2.5">
+                          {role.whoYouAre.map((item) => (
+                            <li
+                              key={item}
+                              className="text-xs sm:text-[13.5px] text-slate-700 leading-relaxed flex items-start gap-2.5"
+                            >
+                              <CheckCircle2 className="w-4 h-4 text-[#008BF8] shrink-0 mt-0.5" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {role.whoYouAreOutro && (
+                          <p className="text-xs text-slate-500 italic pt-1">
+                            {role.whoYouAreOutro}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* What You Will Gain */}
+                      <div className="card-3d rounded-2xl p-6 space-y-3.5">
+                        <h4 className="text-xs font-mono font-black uppercase tracking-wider text-slate-800">
+                          WHAT YOU WILL GAIN
+                        </h4>
+                        <div className="space-y-3.5">
+                          {role.whatYouWillGain.map((g) => (
+                            <div key={g.label} className="space-y-1">
+                              <span className="text-xs sm:text-[13px] font-bold text-slate-900 block">
+                                {g.label}
+                              </span>
+                              <span className="text-xs sm:text-[13px] text-slate-600 leading-relaxed block">
+                                {g.description}
+                              </span>
+                            </div>
+                          ))}
                         </div>
-                        <p className="text-[11.5px] text-slate-600 leading-snug">
-                          {selectedRole.howToApply}
+
+                        {/* Optional Work Environment (HubSpot & Cloud Eng) */}
+                        {role.workEnvironment && (
+                          <div className="pt-3 border-t border-slate-100 space-y-2">
+                            <span className="text-xs font-bold text-slate-900 block">
+                              Work Environment
+                            </span>
+                            <ul className="space-y-1 pl-4 text-xs text-slate-600 list-disc marker:text-[#008BF8]">
+                              {role.workEnvironment.map((w) => (
+                                <li key={w}>{w}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Word-for-Word: Clean Light Bottom Action Plinth with 3D Depth */}
+                    <div className="bg-[#F0F7FF] border border-sky-200/90 shadow-[0_2px_0_#bae6fd] rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
+                      <div className="space-y-1 text-center sm:text-left max-w-xl">
+                        <h5 className="text-base font-bold text-slate-900 tracking-tight">
+                          How to Apply
+                        </h5>
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                          {role.howToApply}
                         </p>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-                        <Link
-                          href="https://www.linkedin.com/company/saasnova/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-3d inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-900"
-                        >
-                          <span>Apply on LinkedIn</span>
-                          <ExternalLink className="w-3.5 h-3.5 text-[#008BF8]" />
-                        </Link>
-
+                      {/* Both Buttons at Bottom */}
+                      <div className="flex flex-wrap items-center gap-3 shrink-0">
                         <button
                           type="button"
-                          onClick={() => openApplyModal(selectedRole.applyOption)}
-                          className="btn-gradient btn-3d inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-xs sm:text-sm font-bold text-white cursor-pointer"
+                          onClick={() => openApplyModal(role.applyOption)}
+                          className="group inline-flex items-center justify-center gap-2 rounded-full px-6 h-[46px] text-xs sm:text-sm font-extrabold text-white whitespace-nowrap cursor-pointer bg-gradient-to-r from-[#FA0F9C] to-[#C8008A] shadow-[0_4px_18px_rgba(250,15,156,0.32)] hover:shadow-[0_8px_24px_rgba(250,15,156,0.45)] hover:-translate-y-0.5 active:scale-[0.98] transition-all"
                         >
                           <span>Apply Now</span>
                           <ArrowRight className="w-4 h-4" />
                         </button>
+                        <a
+                          href={LINKEDIN_JOBS_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-slate-200/90 hover:border-[#008BF8]/60 bg-white hover:bg-slate-50 px-5 h-[46px] text-xs sm:text-sm font-bold text-slate-800 whitespace-nowrap shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+                        >
+                          <LinkedInIcon className="w-4 h-4" />
+                          <span>Apply on LinkedIn</span>
+                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </ScrollReveal>
       </section>
 
-      {/* ── SECTION 4: POLISHED LIGHT 3D OPEN APPLICATION STRIP ── */}
+      {/* ── CAREERS BOTTOM CTA: COMPACT · FIT SAME AS HOME SCREEN · NO CARD ON QUOTE ── */}
       <section
         id="open-application"
         data-nav-title="Open Application"
         data-nav-subtitle="Join the Team"
-        className="relative px-3 pt-1 pb-10 sm:px-6 lg:px-8 scroll-mt-24"
+        className="relative w-full bg-[#F0F7FF] border-t-2 border-sky-200/90 overflow-hidden"
       >
-        <ScrollReveal once={false} variant="up" className="mx-auto max-w-7xl">
-          <div className="card-3d-master rounded-[2rem] px-6 py-6 sm:px-9 sm:py-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#FA0F9C]/80 via-[#008BF8]/80 to-[#FA0F9C]/80" />
+        {/* Prismatic Top Highlight Line */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#008BF8]/80 via-[#FA0F9C]/80 to-transparent" />
 
-            <div className="space-y-1.5 pt-0.5">
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider text-[#008BF8] bg-sky-50 border border-sky-200">
-                OPEN APPLICATION
-              </span>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                Don&apos;t see the right fit?
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600">
-                Send an open application.
-              </p>
+        {/* Ambient Soft Lighting */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-16 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[280px] bg-gradient-to-b from-[#008BF8]/[0.1] via-[#FA0F9C]/[0.05] to-transparent blur-3xl -z-10"
+        />
+
+        {/* Compact Full-Width Container (Exact Same Padding as Home Screen CTA) */}
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-11 lg:py-12 text-center">
+
+          {/* Direct Headline */}
+          <h2 className="text-2xl sm:text-3xl lg:text-[36px] font-black tracking-tight text-slate-900 leading-[1.18] max-w-2xl mx-auto mb-3">
+            Don&apos;t see the right fit above?
+          </h2>
+
+          {/* Seamless Founder Quote (No Card Box) */}
+          <blockquote className="text-sm sm:text-base lg:text-[16.5px] italic font-medium text-slate-700 leading-relaxed max-w-2xl mx-auto mb-2 font-sans">
+            &ldquo;We&apos;re building a GTM team of operators who turn clarity into momentum and momentum into pipeline. If you want ownership, speed, and the chance to ship work that moves companies forward, this is where you belong.&rdquo;
+          </blockquote>
+
+          {/* Attribution with Founder Thumbnail */}
+          <div className="flex items-center justify-center gap-2.5 text-xs sm:text-sm text-slate-500 mb-6">
+            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-slate-200 shrink-0">
+              <Image
+                src="/jen-dp.jpg"
+                alt="Jen Dawson"
+                width={24}
+                height={24}
+                className="object-cover w-full h-full"
+              />
             </div>
+            <strong className="text-slate-900 font-bold">Jen Dawson</strong>
+            <span className="text-slate-300">·</span>
+            <span className="text-[#008BF8] font-semibold">Founder &amp; CEO, SaaSNova</span>
+          </div>
 
+          {/* Single Action Button: Apply Open Application (Hero-Matched) */}
+          <div className="flex items-center justify-center mb-5 sm:mb-6">
             <button
               type="button"
               onClick={() => openApplyModal("Open Application")}
-              className="btn-gradient btn-3d inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-white cursor-pointer shrink-0"
+              className="group inline-flex items-center justify-center gap-2 rounded-full px-7 h-[48px] sm:h-[50px] text-sm sm:text-[15px] font-extrabold text-white whitespace-nowrap cursor-pointer bg-gradient-to-r from-[#FA0F9C] to-[#C8008A] shadow-[0_4px_18px_rgba(250,15,156,0.32),inset_0_1px_0_rgba(255,255,255,0.2)] hover:shadow-[0_8px_26px_rgba(250,15,156,0.45)] hover:-translate-y-0.5 active:scale-[0.98] transition-all"
             >
-              <span>Send Open Application</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Apply Open Application</span>
+              <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
             </button>
           </div>
-        </ScrollReveal>
+
+          {/* Direct Contact Details Line (Identical to Home Screen Footer Attach) */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-xs sm:text-[13px] font-medium text-slate-500 pt-3 border-t border-sky-200/80 max-w-sm mx-auto">
+            <a
+              href="mailto:operations@saasnova.ai"
+              className="hover:text-[#008BF8] hover:underline transition-colors"
+            >
+              operations@saasnova.ai
+            </a>
+            <span className="text-slate-300">·</span>
+            <a
+              href="tel:+12017555369"
+              className="hover:text-[#008BF8] hover:underline transition-colors"
+            >
+              +1 (201) 755-5369
+            </a>
+          </div>
+
+        </div>
       </section>
 
-      {/* ── UPGRADED DARK-HEADER / STRUCTURED-FORM APPLICATION DIALOG ── */}
+      {/* ── APPLICATION MODAL DIALOG (FIXED HEIGHT, NO SCROLLBAR) ── */}
       <dialog
         ref={dialogRef}
-        onCancel={(e) => {
-          e.preventDefault();
-          closeModal();
-        }}
-        onClick={(e) => {
-          if (e.target === dialogRef.current) closeModal();
-        }}
-        aria-labelledby="apply-modal-title"
-        className="m-auto w-[calc(100%-1.5rem)] max-w-3xl rounded-[2rem] bg-white text-slate-900 p-0 border border-slate-200/90 shadow-[0_32px_80px_-10px_rgba(7,13,30,0.65)] backdrop:bg-slate-950/75 backdrop:backdrop-blur-md overflow-hidden"
+        className="backdrop:bg-slate-950/70 backdrop:backdrop-blur-sm p-0 rounded-3xl shadow-2xl max-w-xl w-full m-auto border border-slate-200 bg-white overflow-hidden"
       >
-        {/* Sleek Dark #070D1E Header Banner */}
-        <div className="relative bg-[#070D1E] text-white px-5 py-4 sm:px-7 sm:py-5 overflow-hidden">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#FA0F9C] via-[#008BF8] to-[#FA0F9C]" />
-          <div className="pointer-events-none -top-12 right-8 absolute w-48 h-32 rounded-full bg-[#008BF8]/25 blur-2xl" />
-
-          <div className="relative z-10 flex items-start justify-between gap-4">
-            <div className="space-y-1.5">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300">
-                  {modalRoleMeta ? modalRoleMeta.code : "GENERAL SUBMISSION"}
-                </span>
-                {modalRoleMeta && (
-                  <span className="inline-flex items-center gap-1 text-[11px] text-slate-300 font-medium">
-                    <MapPin className="w-3 h-3 text-[#FA0F9C]" />
-                    {modalRoleMeta.detailLocation} · {modalRoleMeta.workMode}
-                  </span>
-                )}
-              </div>
-
-              <h3 id="apply-modal-title" className="text-xl sm:text-2xl font-black tracking-tight">
-                {modalRoleMeta ? modalRoleMeta.fullTitle : "Open Application"}
+        <div className="p-5 sm:p-6 space-y-3.5">
+          {/* Header */}
+          <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div className="space-y-0.5 min-w-0">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#008BF8] block">
+                SaaSNOVA CAREER APPLICATION
+              </span>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight truncate">
+                <span className="text-slate-500 font-semibold">Role:</span>{" "}
+                <span className="font-black text-slate-900">{roleValue || "Open Application"}</span>
               </h3>
             </div>
-
             <button
               type="button"
               onClick={closeModal}
-              aria-label="Close application form"
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-slate-200 hover:text-white flex items-center justify-center cursor-pointer shrink-0 transition-colors"
+              aria-label="Close dialog"
+              className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer shrink-0"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
           </div>
-        </div>
 
-        {/* Form Body */}
-        <div className="max-h-[78vh] overflow-y-auto bg-slate-50/75 p-4 sm:p-6">
-          {submitted ? (
-            <div className="rounded-2xl bg-white border border-slate-200/90 p-7 text-center space-y-4 shadow-xs">
-              <div className="w-14 h-14 mx-auto rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-                <CheckCircle2 className="w-8 h-8" />
-              </div>
-              <div className="space-y-1.5">
-                <h4 className="text-xl font-black text-slate-900">
-                  Application Ready to Send
-                </h4>
-                <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                  Thanks, <strong>{firstName}</strong>. Your application for{" "}
-                  <strong>{roleValue}</strong> has been prepared—click below to dispatch directly to our hiring desk.
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <a
-                  href={`mailto:operations@saasnova.ai?subject=${mailtoSubject}&body=${mailtoBody}`}
-                  className="btn-gradient btn-3d inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white"
-                >
-                  <span>Email operations@saasnova.ai</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="btn-3d px-5 py-2.5 rounded-full bg-white border border-slate-200 text-xs sm:text-sm font-bold text-slate-700 cursor-pointer"
-                >
-                  Done
-                </button>
-              </div>
-            </div>
-          ) : (
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-3.5">
-              {/* Group 1: Candidate Info */}
-              <div className="rounded-2xl bg-white border border-slate-200/90 p-4 space-y-3 shadow-2xs">
-                <div className="text-[10px] font-mono font-black uppercase tracking-wider text-slate-400">
-                  01 · CANDIDATE DETAILS
+          {/* Form Content */}
+          <div>
+            {submitted ? (
+              <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-5 text-center space-y-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-5 h-5" />
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      First Name <span className="text-rose-500">*</span>
-                    </span>
-                    <input
-                      type="text"
-                      name="first_name"
-                      placeholder="Jane"
-                      required
-                      value={firstName}
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                        e.target.removeAttribute("aria-invalid");
-                      }}
-                      className="career-field w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all"
-                    />
-                  </label>
-
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      Last Name <span className="text-rose-500">*</span>
-                    </span>
-                    <input
-                      type="text"
-                      name="last_name"
-                      placeholder="Smith"
-                      required
-                      value={lastName}
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                        e.target.removeAttribute("aria-invalid");
-                      }}
-                      className="career-field w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all"
-                    />
-                  </label>
-
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      Email <span className="text-rose-500">*</span>
-                    </span>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="jane@email.com"
-                      required
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                        e.target.removeAttribute("aria-invalid");
-                      }}
-                      className="career-field w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all"
-                    />
-                  </label>
-
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      LinkedIn URL <span className="text-rose-500">*</span>
-                    </span>
-                    <input
-                      type="url"
-                      name="linkedin"
-                      placeholder="https://linkedin.com/in/..."
-                      required
-                      value={linkedin}
-                      onChange={(e) => {
-                        setLinkedin(e.target.value);
-                        e.target.removeAttribute("aria-invalid");
-                      }}
-                      className="career-field w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all"
-                    />
-                  </label>
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-emerald-900">
+                    Application Details Prepared!
+                  </h4>
+                  <p className="text-xs text-emerald-700 max-w-sm mx-auto">
+                    Click below to dispatch your dossier directly to Jen Dawson &amp; the SaaSNova team via email.
+                  </p>
                 </div>
-              </div>
-
-              {/* Group 2: Role & Pitch */}
-              <div className="rounded-2xl bg-white border border-slate-200/90 p-4 space-y-3 shadow-2xs">
-                <div className="text-[10px] font-mono font-black uppercase tracking-wider text-slate-400">
-                  02 · ROLE &amp; BACKGROUND
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      Location <span className="text-rose-500">*</span>
-                    </span>
-                    <input
-                      type="text"
-                      name="location"
-                      placeholder="City, Country"
-                      required
-                      value={location}
-                      onChange={(e) => {
-                        setLocation(e.target.value);
-                        e.target.removeAttribute("aria-invalid");
-                      }}
-                      className="career-field w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all"
-                    />
-                  </label>
-
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      Role <span className="text-rose-500">*</span>
-                    </span>
-                    <div className="relative">
-                      <select
-                        name="role"
-                        required
-                        value={roleValue}
-                        onChange={(e) => {
-                          setRoleValue(e.target.value);
-                          e.target.removeAttribute("aria-invalid");
-                        }}
-                        className="career-field w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/70 pl-3 pr-9 py-2 text-[13px] font-medium text-slate-900 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all truncate"
-                      >
-                        <option value="">Select...</option>
-                        {ROLE_SELECT_OPTIONS.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      Why this role? <span className="text-rose-500">*</span>
-                    </span>
-                    <textarea
-                      name="why"
-                      rows={2}
-                      required
-                      placeholder="What draws you to SaaSNova and this role?"
-                      value={whyRole}
-                      onChange={(e) => {
-                        setWhyRole(e.target.value);
-                        e.target.removeAttribute("aria-invalid");
-                      }}
-                      className="career-field w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all resize-y"
-                    />
-                  </label>
-
-                  <label className="block space-y-1">
-                    <span className="text-xs font-bold text-slate-700">
-                      Relevant background{" "}
-                      <span className="text-slate-400 font-normal">(optional)</span>
-                    </span>
-                    <textarea
-                      name="background"
-                      rows={2}
-                      placeholder="Any GTM, SaaS, cloud, or sales experience. Freshers welcome."
-                      value={background}
-                      onChange={(e) => setBackground(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:border-[#008BF8] focus:ring-4 focus:ring-sky-500/10 focus:outline-hidden transition-all resize-y"
-                    />
-                  </label>
-                </div>
-              </div>
-
-              {/* Consent Bar & Action Row */}
-              <label className="flex items-center gap-2.5 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2.5 cursor-pointer hover:border-slate-300 transition-colors">
-                <input
-                  type="checkbox"
-                  required
-                  checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
-                  className="rounded border-slate-300 text-[#008BF8] focus:ring-[#008BF8]"
-                />
-                <span className="text-xs text-slate-600 leading-snug">
-                  I consent to SaaSNova storing my info for recruitment. See Privacy Policy.{" "}
-                  <span className="text-rose-500">*</span>
-                </span>
-              </label>
-
-              <div className="pt-1 flex flex-wrap items-center justify-between gap-3">
-                <span className="text-[11px] font-mono text-slate-500">
-                  Direct to operations@saasnova.ai
-                </span>
-                <div className="flex items-center gap-2.5">
+                <div className="pt-1 flex flex-row items-center justify-center gap-3">
+                  <a
+                    href={`mailto:jen@saasnova.ai?subject=${mailtoSubject}&body=${mailtoBody}`}
+                    className="btn-gradient btn-3d inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold text-white shadow-md"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Send Dossier via Email</span>
+                  </a>
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="px-4 py-2 rounded-full text-xs font-bold text-slate-600 hover:text-slate-900 cursor-pointer"
+                    className="px-4 py-2 rounded-full border border-slate-200 text-xs font-bold text-slate-700 hover:bg-white transition-colors cursor-pointer"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-2.5">
+                {/* Row 1: First Name & Last Name */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700 block">First Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Jane"
+                      className="w-full px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#008BF8] text-xs sm:text-sm text-slate-900 bg-white"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700 block">Last Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Doe"
+                      className="w-full px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#008BF8] text-xs sm:text-sm text-slate-900 bg-white"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 2: Email & LinkedIn */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700 block">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="jane@company.com"
+                      className="w-full px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#008BF8] text-xs sm:text-sm text-slate-900 bg-white"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700 block">LinkedIn Profile URL *</label>
+                    <input
+                      type="url"
+                      required
+                      value={linkedin}
+                      onChange={(e) => setLinkedin(e.target.value)}
+                      placeholder="https://linkedin.com/in/..."
+                      className="w-full px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#008BF8] text-xs sm:text-sm text-slate-900 bg-white"
+                    />
+                  </div>
+                </div>
+
+                {/* Row 3: Location / Timezone (Full width with Role fixed in header) */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700 block">
+                    Current Location / Timezone *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="e.g. Austin, TX (CST) or London, UK or Bangalore"
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#008BF8] text-xs sm:text-sm text-slate-900 bg-white"
+                  />
+                </div>
+
+                {/* Row 4: Why operate with SaaSNova */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700 block">
+                    Why do you want to operate with SaaSNova? *
+                  </label>
+                  <textarea
+                    rows={2}
+                    required
+                    value={whyRole}
+                    onChange={(e) => setWhyRole(e.target.value)}
+                    placeholder="Tell us about your hyperscaler experience (AWS ACE, Azure, GCP) or GTM execution background..."
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#008BF8] text-xs sm:text-sm text-slate-900 bg-white resize-none"
+                  />
+                </div>
+
+                {/* Row 5: Relevant Deals or Milestones */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700 block">
+                    Relevant Deals, Quotas, or Program Milestones
+                  </label>
+                  <input
+                    type="text"
+                    value={background}
+                    onChange={(e) => setBackground(e.target.value)}
+                    placeholder="e.g. Launched AWS Marketplace listing, managed $2M ACE co-sell pipeline, etc."
+                    className="w-full px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:border-[#008BF8] text-xs sm:text-sm text-slate-900 bg-white"
+                  />
+                </div>
+
+                {/* Bottom Actions */}
+                <div className="pt-2.5 flex items-center justify-end gap-2.5 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="px-4 py-2 rounded-full border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="btn-gradient btn-3d inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white cursor-pointer"
+                    className="group inline-flex items-center justify-center gap-1.5 rounded-full px-5 h-[42px] text-xs sm:text-sm font-extrabold text-white cursor-pointer bg-gradient-to-r from-[#FA0F9C] to-[#C8008A] shadow-[0_4px_14px_rgba(250,15,156,0.32)] hover:shadow-[0_6px_20px_rgba(250,15,156,0.45)] hover:-translate-y-0.5 active:scale-[0.98] transition-all"
                   >
-                    <span>Submit Application</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>Review &amp; Submit Application</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
-              </div>
-            </form>
-          )}
+              </form>
+            )}
+          </div>
         </div>
       </dialog>
     </>

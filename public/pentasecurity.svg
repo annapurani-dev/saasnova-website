@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 34" fill="none">
+  <path d="M14 3L4 8.5V17C4 23 8.3 28.2 14 29.5C19.7 28.2 24 23 24 17V8.5L14 3Z" fill="#008BF8" fill-opacity="0.15" stroke="#008BF8" stroke-width="2"/>
+  <path d="M14 8L8 11.5V17C8 20.8 10.5 24.2 14 25.2C17.5 24.2 20 20.8 20 17V11.5L14 8Z" fill="#008BF8"/>
+  <text x="32" y="16" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="900" letter-spacing="-0.3">PENTA</text>
+  <text x="32" y="26" fill="#64748B" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="700" letter-spacing="0.5">SECURITY</text>
+</svg>

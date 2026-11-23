@@ -3,91 +3,131 @@
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 
-interface LogoClient {
+interface ClientItem {
   name: string;
-  logoSrc: string;
-  logoClass: string;
+  logoSrc?: string;
+  logoClass?: string;
+  domain: string;
 }
 
-const CARD_WHITE_CLASS =
-  "rounded-xl bg-white border border-slate-200/90 shadow-[0_2px_0_#e2e8f0,0_4px_0_#cbd5e1,0_10px_18px_-4px_rgba(15,23,42,0.12),inset_0_1px_0_rgba(255,255,255,1)] px-3 py-2 flex items-center justify-center min-h-[66px] overflow-hidden hover:-translate-y-0.5 transition-transform duration-200";
-
-const SECURITY_LOGOS: LogoClient[] = [
+const ALL_CLIENTS: ClientItem[] = [
+  // 1-5
   {
     name: "Arctic Wolf",
     logoSrc: "/arcticwolf.png",
-    logoClass: "h-12 sm:h-14 w-auto max-w-[155px]",
+    logoClass: "h-9 sm:h-10 w-auto max-w-[140px] scale-110",
+    domain: "Security",
   },
   {
     name: "BeyondTrust",
     logoSrc: "/beyondtrust.svg",
-    logoClass: "h-8 sm:h-9 w-auto max-w-[155px]",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[125px]",
+    domain: "Security",
   },
-];
-const SECURITY_TEXT = ["Veracode", "Contrast Security", "AppViewX"];
-
-const INFRA_LOGOS: LogoClient[] = [
   {
     name: "HashiCorp",
     logoSrc: "/hashicorp-ar21.svg",
-    logoClass: "h-9 sm:h-10 w-auto max-w-[140px]",
+    logoClass: "h-7 sm:h-8 w-auto max-w-[125px]",
+    domain: "Infrastructure",
   },
   {
     name: "New Relic",
     logoSrc: "/newrelic.svg",
-    logoClass: "h-16 sm:h-20 w-auto max-w-[165px] -my-3 scale-125",
-  },
-  {
-    name: "Druva",
-    logoSrc: "/Druva_Logo_tagline_Color.svg",
-    logoClass: "h-10 sm:h-11 w-auto max-w-[132px]",
+    logoClass: "h-8 sm:h-9 w-auto max-w-[130px]",
+    domain: "Observability",
   },
   {
     name: "Postman",
     logoSrc: "/Postman--Streamline-Svg-Logos.svg",
-    logoClass: "h-24 sm:h-28 w-24 sm:w-28 -my-8 scale-125",
+    logoClass: "h-8 sm:h-9 w-auto max-w-[125px]",
+    domain: "DevTools",
+  },
+  // 6-10
+  {
+    name: "Druva",
+    logoSrc: "/Druva_Logo_tagline_Color.svg",
+    logoClass: "h-7 sm:h-8 w-auto max-w-[115px]",
+    domain: "Cloud Data",
   },
   {
     name: "Fastly",
     logoSrc: "/Fastly--Streamline-Svg-Logos.svg",
-    logoClass: "h-24 sm:h-28 w-24 sm:w-28 -my-8 scale-125",
+    logoClass: "h-7 sm:h-8 w-auto max-w-[120px]",
+    domain: "Edge Cloud",
   },
-];
-
-const DATA_LOGOS: LogoClient[] = [
   {
     name: "ClickHouse",
     logoSrc: "/clickhouse-1.svg",
-    logoClass: "h-9 sm:h-10 w-auto max-w-[148px]",
+    logoClass: "h-7 sm:h-8 w-auto max-w-[125px]",
+    domain: "Database",
   },
   {
     name: "Denodo",
     logoSrc: "/denodo.svg",
-    logoClass: "h-8 sm:h-9 w-auto max-w-[130px]",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[115px]",
+    domain: "Data Integration",
   },
   {
     name: "Kore.ai",
     logoSrc: "/kore-ai-logo-png_seeklogo-504534.png",
-    logoClass: "h-16 sm:h-20 w-auto max-w-[132px] -my-3",
+    logoClass: "h-9 sm:h-10 w-auto max-w-[140px] scale-125",
+    domain: "Enterprise AI",
   },
-];
-const DATA_TEXT = ["LiveRamp", "Dataminr", "Flywheel.io"];
-
-const SAAS_LOGOS: LogoClient[] = [
+  // 11-15
   {
     name: "Freshworks",
     logoSrc: "/freshworks-logo-png.png",
-    logoClass: "h-20 sm:h-24 w-auto max-w-[146px] -my-4 scale-115",
+    logoClass: "h-8 sm:h-9 w-auto max-w-[125px]",
+    domain: "Enterprise SaaS",
   },
   {
-    name: "JamF",
+    name: "Jamf",
     logoSrc: "/jamf.png",
-    logoClass: "h-8 sm:h-9 w-auto max-w-[120px]",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[110px]",
+    domain: "Apple Management",
   },
   {
     name: "ZoomInfo",
     logoSrc: "/zoominfo.svg",
-    logoClass: "h-8 sm:h-9 w-auto max-w-[135px]",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[120px]",
+    domain: "GTM Intelligence",
+  },
+  {
+    name: "Veracode",
+    logoSrc: "/veracode.svg",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[130px]",
+    domain: "AppSec",
+  },
+  {
+    name: "Dataminr",
+    logoSrc: "/images/dataminr-logo.png",
+    logoClass: "h-7 sm:h-8 w-auto max-w-[125px]",
+    domain: "Real-time AI",
+  },
+  // 16-19
+  {
+    name: "LiveRamp",
+    logoSrc: "/liveramp.svg",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[125px]",
+    domain: "Data Collaboration",
+  },
+  {
+    name: "Contrast Security",
+    logoSrc: "/contrast-security.svg",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[135px]",
+    domain: "Security",
+  },
+  {
+    name: "AppViewX",
+    logoSrc: "/appviewx.svg",
+    logoClass: "h-7 sm:h-8 w-auto max-w-[130px]",
+    domain: "Certificate Lifecycle",
+  },
+  {
+    name: "Flywheel.io",
+    logoSrc: "/flywheel.svg",
+    logoClass: "h-6 sm:h-7 w-auto max-w-[130px]",
+    domain: "Medical Imaging",
   },
 ];
 
@@ -97,170 +137,95 @@ export default function AboutClientsSection() {
       id="clients"
       data-nav-title="Our Trusted Clients"
       data-nav-subtitle="100+ ISVs Activated"
-      className="relative px-3 py-8 sm:px-6 lg:px-8 scroll-mt-24"
+      className="relative px-4 sm:px-6 lg:px-8 py-20 bg-transparent border-b border-slate-200/60 scroll-mt-24 select-none overflow-hidden"
     >
-      <ScrollReveal once={false} variant="up" className="mx-auto max-w-7xl">
-        <div className="card-3d-master relative rounded-[2.25rem] px-5 py-6 sm:px-8 sm:py-7 lg:px-10 lg:py-8 overflow-hidden space-y-6 select-none">
-          {/* Ambient Light Glows */}
-          <div className="pointer-events-none absolute -top-24 left-1/4 w-80 h-56 rounded-full bg-sky-200/35 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 right-1/4 w-80 h-56 rounded-full bg-pink-200/30 blur-3xl" />
+      {/* ── Ambient Studio Glows ── */}
+      <div className="pointer-events-none absolute -top-40 left-1/4 w-[540px] h-[540px] rounded-full bg-[#008BF8]/6 blur-[140px]" />
+      <div className="pointer-events-none absolute -bottom-40 right-1/4 w-[540px] h-[540px] rounded-full bg-[#FA0F9C]/6 blur-[140px]" />
 
-          {/* Clean Centered Header */}
-          <div className="relative z-10 text-center max-w-2xl mx-auto space-y-2">
-            <span className="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider text-[#008BF8] bg-sky-50 border border-sky-200">
-              OUR TRUSTED CLIENTS
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              100+ ISVs <span className="text-gradient">activated.</span>
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Security, infrastructure, data, and SaaS categories, across Hyperscalers.
-            </p>
-          </div>
+      <ScrollReveal once={true} variant="up" className="mx-auto max-w-7xl w-full relative z-10 space-y-10">
+        
+        {/* ── Section Header (Clean, No Gradient) ── */}
+        <div className="space-y-3 max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-900 tracking-tight leading-[1.14]">
+            100+ ISVs Activated
+          </h2>
 
-          {/* ── 2x2 SYMMETRICAL WHITE-KEYCAP VERTICAL BENTO ON LIGHT RECESSED TRAYS ── */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {/* Pod 1: Security & Identity */}
-            <div className="well-recessed relative rounded-[1.5rem] p-4 sm:p-5 overflow-hidden space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FA0F9C]" />
-                <h3 className="text-sm font-extrabold tracking-tight text-slate-900">
-                  Security &amp; Identity
-                </h3>
-              </div>
-              <div className="space-y-2.5">
-                <div className="grid grid-cols-2 gap-2.5">
-                  {SECURITY_LOGOS.map((client) => (
-                    <div key={client.name} className={CARD_WHITE_CLASS}>
+          <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+            Leading enterprise software companies across Security, Infrastructure, Data &amp; AI, and SaaS executing their AWS, Azure, and Google Cloud co-sell with SaaSNova.
+          </p>
+        </div>
+
+        {/* ── Master 3D Platform with Blue Accent Border & Ice-Blue Chassis ── */}
+        <div className="p-[1.5px] rounded-[2.25rem] sm:rounded-[2.5rem] bg-gradient-to-r from-[#008BF8] via-sky-400 to-[#008BF8] shadow-[0_24px_70px_rgba(0,139,248,0.16),0_4px_0_#cbd5e1]">
+          <div className="relative rounded-[calc(2.25rem-1.5px)] sm:rounded-[calc(2.5rem-1.5px)] bg-gradient-to-b from-[#EDF5FE] via-[#E4F0FD] to-[#EDF5FE] p-4 sm:p-6 lg:p-8 overflow-hidden border-t-2 border-white space-y-6">
+            
+            {/* Specular top rim light */}
+            <div className="pointer-events-none absolute top-0 inset-x-12 h-[2px] bg-gradient-to-r from-transparent via-white to-transparent" />
+
+            {/* Recessed Interior Bed for Cards */}
+            <div className="rounded-[1.75rem] bg-slate-50 p-3 sm:p-5 shadow-[inset_0_2px_6px_rgba(15,23,42,0.04)] border border-slate-200/70">
+              
+              {/* ── Unified 20-Tile Logo Grid (5x4 on desktop, 4x5 on tablet, 2x10 on mobile) ── */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
+                {ALL_CLIENTS.map((client) => (
+                  <div
+                    key={client.name}
+                    className="bg-white rounded-2xl border border-slate-200/85 shadow-[0_1px_0_#e2e8f0,0_2px_0_#d5dee9,0_3px_0_#c4d0e0,0_8px_18px_-4px_rgba(15,23,42,0.06)] hover:shadow-[0_2px_0_#cbd5e1,0_4px_0_#b4c3d6,0_14px_28px_-6px_rgba(0,139,248,0.14)] hover:-translate-y-1 transition-all duration-300 p-3 sm:p-4 h-[86px] sm:h-[96px] flex flex-col items-center justify-center overflow-hidden group cursor-default"
+                  >
+                    {client.logoSrc ? (
                       <Image
                         src={client.logoSrc}
                         alt={client.name}
-                        width={160}
-                        height={64}
-                        loading="lazy"
-                        className={`${client.logoClass} object-contain mix-blend-multiply`}
+                        width={140}
+                        height={50}
+                        priority={true}
+                        className={`${client.logoClass} object-contain transition-transform duration-300 group-hover:scale-105`}
                       />
-                    </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                  {SECURITY_TEXT.map((name, idx) => (
-                    <div
-                      key={name}
-                      className={`${CARD_WHITE_CLASS} ${idx === 2 ? "col-span-2 sm:col-span-1" : ""}`}
-                    >
-                      <span className="text-sm font-black tracking-tight text-slate-900 text-center">
-                        {name}
+                    ) : (
+                      <span className="font-display font-black text-sm sm:text-base tracking-tight text-slate-800 group-hover:text-[#008BF8] transition-colors text-center">
+                        {client.name}
                       </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Pod 2: Infrastructure & DevTools */}
-            <div className="well-recessed relative rounded-[1.5rem] p-4 sm:p-5 overflow-hidden space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#008BF8]" />
-                <h3 className="text-sm font-extrabold tracking-tight text-slate-900">
-                  Infrastructure &amp; DevTools
-                </h3>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-6 gap-2.5">
-                {INFRA_LOGOS.map((client, idx) => {
-                  const desktopSpan = idx < 3 ? "sm:col-span-2" : "sm:col-span-3";
-                  const mobileSpan =
-                    client.name === "Fastly" ? "col-span-2 sm:col-span-3" : "";
-                  return (
-                    <div
-                      key={client.name}
-                      className={`${CARD_WHITE_CLASS} ${desktopSpan} ${mobileSpan}`}
-                    >
-                      <Image
-                        src={client.logoSrc}
-                        alt={client.name}
-                        width={160}
-                        height={64}
-                        loading="lazy"
-                        className={`${client.logoClass} object-contain mix-blend-multiply`}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Pod 3: Data & Enterprise AI */}
-            <div className="well-recessed relative rounded-[1.5rem] p-4 sm:p-5 overflow-hidden space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#008BF8]" />
-                <h3 className="text-sm font-extrabold tracking-tight text-slate-900">
-                  Data &amp; Enterprise AI
-                </h3>
-              </div>
-              <div className="space-y-2.5">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                  {DATA_LOGOS.map((client, idx) => (
-                    <div
-                      key={client.name}
-                      className={`${CARD_WHITE_CLASS} ${idx === 2 ? "col-span-2 sm:col-span-1" : ""}`}
-                    >
-                      <Image
-                        src={client.logoSrc}
-                        alt={client.name}
-                        width={160}
-                        height={64}
-                        loading="lazy"
-                        className={`${client.logoClass} object-contain mix-blend-multiply`}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                  {DATA_TEXT.map((name, idx) => (
-                    <div
-                      key={name}
-                      className={`${CARD_WHITE_CLASS} ${idx === 2 ? "col-span-2 sm:col-span-1" : ""}`}
-                    >
-                      <span className="text-sm font-black tracking-tight text-slate-900 text-center">
-                        {name}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Pod 4: Enterprise SaaS */}
-            <div className="well-recessed relative rounded-[1.5rem] p-4 sm:p-5 overflow-hidden space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FA0F9C]" />
-                <h3 className="text-sm font-extrabold tracking-tight text-slate-900">
-                  Enterprise SaaS
-                </h3>
-              </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                {SAAS_LOGOS.map((client) => (
-                  <div key={client.name} className={CARD_WHITE_CLASS}>
-                    <Image
-                      src={client.logoSrc}
-                      alt={client.name}
-                      width={160}
-                      height={64}
-                      loading="lazy"
-                      className={`${client.logoClass} object-contain mix-blend-multiply`}
-                    />
+                    )}
                   </div>
                 ))}
-                <div className={CARD_WHITE_CLASS}>
-                  <span className="text-base sm:text-lg font-black tracking-tight text-gradient">
-                    + 80 more
+
+                {/* ── 20th Accent Tile: +80 More ISVs (Clean White, No Gradients Inside) ── */}
+                <div className="bg-white rounded-2xl border border-slate-200/85 shadow-[0_1px_0_#e2e8f0,0_2px_0_#d5dee9,0_3px_0_#c4d0e0,0_8px_18px_-4px_rgba(15,23,42,0.06)] hover:shadow-[0_2px_0_#cbd5e1,0_4px_0_#b4c3d6,0_14px_28px_-6px_rgba(0,139,248,0.14)] hover:-translate-y-1 transition-all duration-300 p-3 sm:p-4 h-[86px] sm:h-[96px] flex flex-col items-center justify-center overflow-hidden group cursor-default">
+                  <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-none">
+                    + 80 More
+                  </span>
+                  <span className="mt-1 text-[8.5px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                    ACROSS HYPERSCALERS
                   </span>
                 </div>
               </div>
+
             </div>
+
+            {/* ── Bottom Proof Strip (Execution Outputs) ── */}
+            <div className="pt-2 border-t border-slate-200/80 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+              <div>
+                <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">2,000+</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">PSQLs Generated</p>
+              </div>
+              <div>
+                <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">9X</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">Validated ROI</p>
+              </div>
+              <div>
+                <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">$300K+</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">MDF Secured</p>
+              </div>
+              <div>
+                <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">100%</p>
+                <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">Operator-Executed</p>
+              </div>
+            </div>
+
           </div>
         </div>
+
       </ScrollReveal>
     </section>
   );

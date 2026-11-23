@@ -1,17 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState, useRef } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 
 interface CompanyStar {
   id: string;
   name: string;
   role: string;
+  bottomLine1: string;
+  bottomLine2: string;
   region: string;
   shortTag: string;
   bio: string;
   initials: string;
-  badgeColor: "sky" | "pink" | "slate";
+  badgeColor: "sky" | "pink";
+  image?: string;
 }
 
 const COMPANY_STARS: CompanyStar[] = [
@@ -19,6 +22,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "silas",
     name: "Silas",
     role: "CHIEF GROWTH OFFICER",
+    bottomLine1: "GROWTH",
+    bottomLine2: "LEAD",
     region: "Global Growth",
     shortTag: "GROWTH",
     initials: "S",
@@ -29,6 +34,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "jocelyn",
     name: "Jocelyn",
     role: "BUSINESS DEVELOPMENT MANAGER",
+    bottomLine1: "BDM",
+    bottomLine2: "LEAD",
     region: "Field Alliances",
     shortTag: "ALLIANCES",
     initials: "J",
@@ -39,6 +46,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "ram",
     name: "Ram",
     role: "GLOBAL PARTNER DEVELOPMENT MANAGER",
+    bottomLine1: "GLOBAL",
+    bottomLine2: "PDM",
     region: "Global PDM",
     shortTag: "GLOBAL",
     initials: "R",
@@ -49,6 +58,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "gino",
     name: "Gino",
     role: "PARTNER PIPELINE EXECUTIVE (US)",
+    bottomLine1: "PIPELINE",
+    bottomLine2: "LEAD",
     region: "United States",
     shortTag: "US",
     initials: "G",
@@ -59,6 +70,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "avadhoot",
     name: "Avadhoot",
     role: "PARTNER PIPELINE EXECUTIVE (INDIA & SEA)",
+    bottomLine1: "PIPELINE",
+    bottomLine2: "LEAD",
     region: "India & South East Asia",
     shortTag: "INDIA & SEA",
     initials: "A",
@@ -69,6 +82,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "colleen",
     name: "Colleen",
     role: "PARTNER PIPELINE EXECUTIVE (LATAM)",
+    bottomLine1: "PIPELINE",
+    bottomLine2: "LEAD",
     region: "LATAM",
     shortTag: "LATAM",
     initials: "C",
@@ -79,6 +94,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "megha",
     name: "Megha",
     role: "PARTNER PIPELINE EXECUTIVE (MEA REGION)",
+    bottomLine1: "PIPELINE",
+    bottomLine2: "LEAD",
     region: "MEA Region",
     shortTag: "MEA",
     initials: "M",
@@ -89,6 +106,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "jeni",
     name: "Jeni",
     role: "CLOUD MARKETPLACE OPERATIONS",
+    bottomLine1: "MARKET",
+    bottomLine2: "OPS",
     region: "Operations",
     shortTag: "OPS",
     initials: "J",
@@ -99,6 +118,8 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "krishna",
     name: "Krishna",
     role: "DIGITAL MARKETING MANAGER",
+    bottomLine1: "DIGITAL",
+    bottomLine2: "MKTG",
     region: "Demand & Content",
     shortTag: "MARKETING",
     initials: "K",
@@ -109,324 +130,249 @@ const COMPANY_STARS: CompanyStar[] = [
     id: "rohith",
     name: "Rohith",
     role: "VIDEO EDITOR & VIDEOGRAPHER",
+    bottomLine1: "FIELD",
+    bottomLine2: "MEDIA",
     region: "Field Media",
     shortTag: "MEDIA",
     initials: "R",
-    badgeColor: "slate",
+    badgeColor: "sky",
     bio: "Captures and produces GTM content from field activity. Converts execution into visual proof and distribution assets.",
   },
 ];
 
-const BADGE_STYLE_DARK = {
-  sky: "bg-sky-500/15 text-sky-300 border-sky-400/30",
-  pink: "bg-pink-500/15 text-pink-300 border-pink-400/30",
-  slate: "bg-white/10 text-slate-200 border-white/20",
+const BADGE_STYLE_LIGHT = {
+  sky: "bg-sky-50 text-[#008BF8] border-sky-200/90 shadow-[0_1px_2px_rgba(0,139,248,0.08)]",
+  pink: "bg-sky-50 text-[#008BF8] border-sky-200/90 shadow-[0_1px_2px_rgba(0,139,248,0.08)]",
 } as const;
 
-const TOTAL = COMPANY_STARS.length;
-
-function getSignedCircularOffset(index: number, centerPos: number): number {
-  const half = TOTAL / 2;
-  return ((((index - centerPos) % TOTAL) + TOTAL + half) % TOTAL) - half;
-}
-
-function getFisheyeMetrics(diff: number, spreadPx: number) {
-  const absDiff = Math.abs(diff);
-  const sign = diff === 0 ? 0 : diff > 0 ? 1 : -1;
-
-  const x =
-    sign * (absDiff * spreadPx + (1 - Math.exp(-absDiff * 1.35)) * (spreadPx * 0.16));
-  const y = Math.min(30, absDiff * absDiff * 4.4);
-  const scale = 0.52 + 0.72 * Math.exp(-(absDiff * absDiff) / 1.45);
-  const rotateY = Math.max(-22, Math.min(22, -diff * 7.5));
-  const opacity = absDiff > 3.4 ? 0 : Math.max(0.22, 1 - Math.pow(absDiff / 3.55, 1.5));
-  const zIndex = Math.round(40 - absDiff * 8);
-
-  return { x, y, scale, rotateY, opacity, zIndex };
-}
-
 export default function CompanyStarsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  // Default to rohith open as in the original layout
+  const [activeId, setActiveId] = useState<string>("rohith");
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const stageRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const currentPosRef = useRef(0);
-  const targetPosRef = useRef(0);
-  const spreadRef = useRef(152);
-  const rafRef = useRef<number | null>(null);
-  const pointerStartXRef = useRef<number | null>(null);
+  const handleMouseEnter = (id: string) => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = setTimeout(() => {
+      setActiveId(id);
+    }, 75);
+  };
 
-  const applyFisheyeFrame = useCallback((pos: number) => {
-    const spread = spreadRef.current;
-    itemRefs.current.forEach((el, idx) => {
-      if (!el) return;
-      const diff = getSignedCircularOffset(idx, pos);
-      const { x, y, scale, rotateY, opacity, zIndex } = getFisheyeMetrics(diff, spread);
+  const handleMouseLeave = () => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+  };
 
-      el.style.transform = `translate3d(calc(-50% + ${x.toFixed(1)}px), ${y.toFixed(1)}px, 0) perspective(900px) rotateY(${rotateY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
-      el.style.opacity = opacity.toFixed(3);
-      el.style.zIndex = String(zIndex);
-      el.style.pointerEvents = Math.abs(diff) > 3.15 ? "none" : "auto";
-    });
-  }, []);
-
-  const stepTarget = useCallback((delta: number) => {
-    if (delta === 0) return;
-    targetPosRef.current += delta;
-    const nextIdx = ((Math.round(targetPosRef.current) % TOTAL) + TOTAL) % TOTAL;
-    setActiveIndex(nextIdx);
-  }, []);
-
-  const focusOperator = useCallback(
-    (targetIdx: number) => {
-      const currentMod = ((Math.round(targetPosRef.current) % TOTAL) + TOTAL) % TOTAL;
-      let delta = targetIdx - currentMod;
-      if (delta > TOTAL / 2) delta -= TOTAL;
-      if (delta < -TOTAL / 2) delta += TOTAL;
-      stepTarget(delta);
-    },
-    [stepTarget]
-  );
-
-  // Responsive horizontal spread + continuous 60fps fisheye glide
-  useEffect(() => {
-    const updateSpread = () => {
-      const w = stageRef.current?.offsetWidth || 1100;
-      spreadRef.current = w < 520 ? 108 : w < 860 ? 132 : 154;
-      applyFisheyeFrame(currentPosRef.current);
-    };
-
-    updateSpread();
-    window.addEventListener("resize", updateSpread);
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let running = true;
-
-    const tick = () => {
-      if (!running) return;
-      const diff = targetPosRef.current - currentPosRef.current;
-      if (reducedMotion || Math.abs(diff) < 0.002) {
-        currentPosRef.current = targetPosRef.current;
-      } else {
-        currentPosRef.current += diff * 0.14;
-      }
-      applyFisheyeFrame(currentPosRef.current);
-      rafRef.current = requestAnimationFrame(tick);
-    };
-
-    rafRef.current = requestAnimationFrame(tick);
-
-    return () => {
-      running = false;
-      window.removeEventListener("resize", updateSpread);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [applyFisheyeFrame]);
-
-  // Smooth auto-rotation (pauses on hover, focus, or reduced-motion)
-  useEffect(() => {
-    if (isPaused) return;
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-    const timer = window.setInterval(() => {
-      stepTarget(1);
-    }, 3600);
-    return () => window.clearInterval(timer);
-  }, [isPaused, stepTarget]);
-
-  const activeStar = COMPANY_STARS[activeIndex] || COMPANY_STARS[0];
+  const handleClick = (id: string) => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    setActiveId(id);
+  };
 
   return (
     <section
       id="stars"
-      data-nav-title="Company Stars"
-      data-nav-subtitle="Meet the 10 Operators"
-      className="relative px-3 py-8 sm:px-6 lg:px-8 scroll-mt-24"
+      data-nav-title="Our Team"
+      data-nav-subtitle="Operating Bench"
+      className="relative px-4 sm:px-6 lg:px-8 py-20 bg-transparent border-b border-slate-200/60 scroll-mt-24 select-none overflow-hidden"
     >
-      <ScrollReveal once={false} variant="up" className="mx-auto max-w-7xl">
-        {/* ── DARK #070D1E THEATRE STAGE CARD ── */}
-        <div
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onFocusCapture={() => setIsPaused(true)}
-          onBlurCapture={() => setIsPaused(false)}
-          onPointerDown={(e) => {
-            pointerStartXRef.current = e.clientX;
-          }}
-          onPointerUp={(e) => {
-            if (pointerStartXRef.current === null) return;
-            const dx = e.clientX - pointerStartXRef.current;
-            pointerStartXRef.current = null;
-            if (Math.abs(dx) > 42) {
-              stepTarget(dx < 0 ? 1 : -1);
-            }
-          }}
-          className="card-3d-master-dark relative p-[2.5px] rounded-[2.25rem] bg-gradient-to-r from-[#FA0F9C] via-[#008BF8] to-[#FA0F9C] text-white select-none"
-        >
-          <div className="relative bg-[#070D1E] rounded-[calc(2.25rem-2.5px)] px-4 pt-7 pb-7 sm:px-8 sm:pt-8 sm:pb-8 overflow-hidden backdrop-blur-2xl">
-            {/* Specular Top Rim & Side Theatre Vignette */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 via-pink-400/75 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-44 bg-gradient-to-r from-[#070D1E] via-[#070D1E]/80 to-transparent z-20" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-44 bg-gradient-to-l from-[#070D1E] via-[#070D1E]/80 to-transparent z-20" />
+      {/* ── Soft Ambient Glows (Crisp SaaSNova Brand Blue) ── */}
+      <div className="pointer-events-none absolute -top-40 left-1/4 w-[540px] h-[540px] rounded-full bg-[#008BF8]/8 blur-[140px]" />
+      <div className="pointer-events-none absolute -bottom-40 right-1/4 w-[540px] h-[540px] rounded-full bg-sky-400/8 blur-[140px]" />
 
-            {/* Centered Section Heading */}
-            <div className="relative z-20 text-center max-w-2xl mx-auto space-y-2 pb-4">
-              <span className="inline-flex items-center px-3 py-0.5 rounded-full border border-white/15 bg-white/10 text-[11px] font-mono font-bold uppercase tracking-wider text-slate-200 backdrop-blur-sm">
-                MEET THE STARS
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-                Operator-led.{" "}
-                <span className="text-gradient">Execution-native.</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                No advisors, No theorists. Practitioners with deep hyperscaler roots, executing the GTM motions that drive attributable cloud revenue.
-              </p>
-            </div>
+      <ScrollReveal once={true} variant="up" className="mx-auto max-w-7xl w-full relative z-10 space-y-10">
 
-            {/* ── SPOTLIGHT CAROUSEL THEATRE BAY ── */}
-            <div className="relative mt-2 pt-3">
-              {/* Overhead Lamp Fixture Aperture */}
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-28 h-2 rounded-full bg-gradient-to-r from-slate-700 via-white/90 to-slate-700 border border-white/30 shadow-[0_0_24px_rgba(56,189,248,0.65)] flex items-center justify-center">
-                  <div className="w-16 h-1 rounded-full bg-gradient-to-r from-[#008BF8] via-white to-[#FA0F9C]" />
-                </div>
-                <div className="pointer-events-none -mt-1 w-44 h-8 rounded-full bg-sky-400/40 blur-xl" />
-              </div>
+        {/* ── Section Header (Solid Typography, No Gradient) ── */}
+        <div className="space-y-3 max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-900 tracking-tight leading-[1.14]">
+            Meet the Team
+          </h2>
 
-              {/* Volumetric Falling Spotlight Cone */}
+          <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+            No advisors. No theorists. Practitioners with deep hyperscaler roots, executing the GTM motions that drive attributable cloud revenue.
+          </p>
+        </div>
+
+        {/* ── Master 3D Platform with Blue Accent Outer Card Border ── */}
+        <div className="p-[1.5px] rounded-[2.25rem] sm:rounded-[2.5rem] bg-gradient-to-r from-[#008BF8] via-sky-400 to-[#008BF8] shadow-[0_24px_70px_rgba(0,139,248,0.18),0_4px_0_#cbd5e1]">
+          <div className="relative rounded-[calc(2.25rem-1.5px)] sm:rounded-[calc(2.5rem-1.5px)] bg-gradient-to-b from-[#EDF5FE] via-[#E4F0FD] to-[#EDF5FE] p-4 sm:p-6 lg:p-7 overflow-hidden border-t-2 border-white/80">
+
+            {/* Specular top rim light */}
+            <div className="pointer-events-none absolute top-0 inset-x-12 h-[2px] bg-gradient-to-r from-transparent via-white to-transparent" />
+
+            {/* Recessed Interior Bed for Cards */}
+            <div className="rounded-[1.75rem] bg-slate-50 p-3 sm:p-4 shadow-[inset_0_2px_6px_rgba(15,23,42,0.04)] border border-slate-200/70">
+
+              {/* ── Desktop: Single Row of 10 Smooth 3D Vertical Cards (Zero Jitter, Zero Text Jump) ── */}
               <div
-                aria-hidden="true"
-                className="pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 w-[540px] max-w-[92%] h-[330px] z-[5]"
-                style={{
-                  clipPath: "polygon(43% 0%, 57% 0%, 88% 100%, 12% 100%)",
-                  background:
-                    "linear-gradient(180deg, rgba(125, 211, 252, 0.36) 0%, rgba(0, 139, 248, 0.18) 38%, rgba(255, 255, 255, 0.10) 70%, rgba(250, 15, 156, 0.04) 86%, transparent 100%)",
-                }}
-              />
-              {/* Bright Tight Core Beam */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 w-[300px] max-w-[65%] h-[290px] z-[6]"
-                style={{
-                  clipPath: "polygon(46% 0%, 54% 0%, 74% 100%, 26% 100%)",
-                  background:
-                    "linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(186, 230, 253, 0.22) 45%, rgba(255, 255, 255, 0.05) 85%, transparent 100%)",
-                }}
-              />
-
-              {/* Fisheye Circle Ring */}
-              <div
-                ref={stageRef}
-                className="relative z-10 h-[230px] sm:h-[246px] w-full flex items-center justify-center"
+                data-stars-desktop-container
+                onMouseLeave={handleMouseLeave}
+                className="hidden lg:flex gap-2 sm:gap-2.5 h-[390px] xl:h-[410px] w-full items-stretch"
               >
-                {/* Lit Spotlight Pool Beneath Center Circle */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 w-56 sm:w-64 h-8 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(125,211,252,0.42)_0%,rgba(0,139,248,0.16)_48%,transparent_76%)] blur-[3px] z-[8]"
-                />
+                {COMPANY_STARS.map((star) => {
+                  const isActive = star.id === activeId;
 
-                {COMPANY_STARS.map((star, idx) => {
-                  const isActive = idx === activeIndex;
-                  const diff = getSignedCircularOffset(idx, 0);
-                  const init = getFisheyeMetrics(diff, 154);
+                  const cardBg = isActive
+                    ? "linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 45%, rgba(0, 139, 248, 0.12) 100%)"
+                    : "#FFFFFF";
 
                   return (
-                    <button
+                    <div
                       key={star.id}
-                      ref={(el) => {
-                        itemRefs.current[idx] = el;
-                      }}
-                      type="button"
-                      onClick={() => focusOperator(idx)}
-                      aria-label={`Spotlight ${star.name}, ${star.role}`}
-                      aria-pressed={isActive}
+                      data-star-desktop-id={star.id}
+                      onMouseEnter={() => handleMouseEnter(star.id)}
+                      onClick={() => handleClick(star.id)}
                       style={{
-                        transform: `translate3d(calc(-50% + ${init.x.toFixed(1)}px), ${init.y.toFixed(1)}px, 0) perspective(900px) rotateY(${init.rotateY.toFixed(2)}deg) scale(${init.scale.toFixed(3)})`,
-                        opacity: init.opacity,
-                        zIndex: init.zIndex,
+                        flex: isActive ? "5.5" : "1",
+                        background: cardBg,
+                        transition: "flex 420ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease-out, border-color 300ms ease-out, background 300ms ease-out",
                       }}
-                      className="group absolute left-1/2 top-7 flex flex-col items-center gap-2.5 focus:outline-none cursor-pointer will-change-transform"
-                    >
-                      {/* Sculpted 3D Circular Medallion */}
-                      <div
-                        className={`relative w-[112px] h-[112px] sm:w-[122px] sm:h-[122px] rounded-full p-2 flex items-center justify-center transition-all duration-300 ${
-                          isActive
-                            ? "bg-white border-2 border-white ring-2 ring-cyan-300/75 shadow-[0_-12px_32px_rgba(56,189,248,0.45),0_4px_0_#cbd5e1,0_18px_36px_rgba(0,0,0,0.85)]"
-                            : "bg-gradient-to-b from-slate-800 to-slate-950 border border-white/20 shadow-[0_3px_0_#020617,0_12px_24px_rgba(0,0,0,0.7)] group-hover:border-white/40"
+                      className={`relative rounded-2xl border cursor-pointer select-none overflow-hidden ${isActive
+                        ? "border-[#008BF8] shadow-[0_16px_36px_rgba(0,139,248,0.14),0_2px_0_#93c5fd] p-5 sm:p-6"
+                        : "border-slate-200/90 shadow-[0_2px_4px_rgba(15,23,42,0.03)] hover:border-[#008BF8]/50 p-2 sm:p-2.5 hover:shadow-xs"
                         }`}
-                      >
-                        {isActive && (
-                          <div className="pointer-events-none absolute -top-[3px] inset-x-4 h-[3px] rounded-full bg-gradient-to-r from-transparent via-cyan-200 to-transparent blur-[0.5px]" />
-                        )}
+                    >
+                      {/* Top specular reflection rim */}
+                      <div className="pointer-events-none absolute top-0 inset-x-3 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent" />
 
-                        {/* Inner Circular Monogram Emblem */}
-                        <div
-                          className={`w-full h-full rounded-full flex flex-col items-center justify-center relative overflow-hidden ${
-                            isActive
-                              ? "btn-gradient text-white shadow-inner"
-                              : "bg-gradient-to-br from-slate-800/95 via-slate-900 to-slate-950 text-slate-200 border border-white/10"
+                      {/* ── EXPANDED STATE (Generous width ensures role & region pills are 100% visible) ── */}
+                      <div
+                        className={`star-open-view h-full w-full flex-col justify-between overflow-hidden transition-opacity duration-300 ${isActive ? "flex opacity-100" : "hidden opacity-0 pointer-events-none"
                           }`}
-                        >
-                          <span className="font-display font-black text-3xl sm:text-4xl tracking-tight leading-none">
-                            {star.initials}
-                          </span>
+                      >
+                        <div className="w-full h-full flex flex-col justify-between">
+                          {/* Top Row: Circular Monogram (Same Blue Around Circle) + Region Badge */}
+                          <div className="flex items-start justify-between gap-3">
+                            <div
+                              className="w-16 h-16 rounded-full p-[2px] shrink-0 shadow-md bg-gradient-to-tr from-[#008BF8] via-sky-400 to-[#008BF8]"
+                            >
+                              <div className="w-full h-full rounded-full bg-white flex items-center justify-center font-display font-black text-2xl shadow-inner">
+                                {star.image ? (
+                                  <img
+                                    src={star.image}
+                                    alt={star.name}
+                                    className="w-full h-full object-cover rounded-full"
+                                  />
+                                ) : (
+                                  <span className="text-[#008BF8]">
+                                    {star.initials}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <span
+                              className={`text-[9.5px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full border shrink-0 whitespace-nowrap ${BADGE_STYLE_LIGHT[star.badgeColor]
+                                }`}
+                            >
+                              {star.region}
+                            </span>
+                          </div>
+
+                          {/* Middle Content: Role, Name, Bio */}
+                          <div className="space-y-2 pt-2">
+                            <span
+                              className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border whitespace-nowrap ${BADGE_STYLE_LIGHT[star.badgeColor]
+                                }`}
+                            >
+                              {star.role}
+                            </span>
+
+                            <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-tight">
+                              {star.name}
+                            </h3>
+
+                            <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+                              {star.bio}
+                            </p>
+                          </div>
+
+                          <div className="h-1" />
+                        </div>
+                      </div>
+
+                      {/* ── COLLAPSED STATE (Vertically centered text with whitespace-nowrap — immune to jitter) ── */}
+                      <div
+                        className={`star-closed-view h-full w-full flex-col justify-between items-center transition-opacity duration-300 ${isActive ? "hidden opacity-0 pointer-events-none" : "flex opacity-100"
+                          }`}
+                      >
+                        {/* Top: Circular Keycap */}
+                        <div className="w-7 h-7 rounded-full bg-gradient-to-b from-white to-slate-100 flex items-center justify-center font-display font-black text-[11px] text-slate-700 shadow-xs border border-slate-200/80 shrink-0">
+                          {star.initials}
+                        </div>
+
+                        {/* Middle: Vertically Sculpted Name */}
+                        <div className="flex-1 w-full flex items-center justify-center select-none overflow-hidden my-1">
                           <span
-                            className={`mt-1 text-[8px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                              isActive
-                                ? "bg-white/20 text-white"
-                                : "bg-white/10 text-slate-300"
-                            }`}
+                            style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+                            className="text-[11.5px] font-black tracking-widest text-slate-700 uppercase rotate-180 whitespace-nowrap"
                           >
-                            {star.shortTag}
+                            {star.name}
+                          </span>
+                        </div>
+
+                        {/* Bottom: Exact 2-Line Role Tag (Non-wrapping, never clips) */}
+                        <div className="w-full flex flex-col items-center justify-center pb-2 select-none shrink-0 leading-[1.2]">
+                          <span className="text-[7.5px] sm:text-[8px] font-mono font-bold uppercase tracking-wider text-slate-500 whitespace-nowrap block text-center">
+                            {star.bottomLine1}
+                          </span>
+                          <span className="text-[7.5px] sm:text-[8px] font-mono font-bold uppercase tracking-wider text-slate-500 whitespace-nowrap block text-center">
+                            {star.bottomLine2}
                           </span>
                         </div>
                       </div>
 
-                      {/* Name Tag Directly Under Each Circle */}
-                      <span
-                        className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold tracking-tight whitespace-nowrap transition-colors ${
-                          isActive
-                            ? "bg-white text-slate-900 shadow-[0_4px_14px_rgba(56,189,248,0.28)]"
-                            : "text-slate-300 group-hover:text-white"
-                        }`}
-                      >
-                        {star.name}
-                      </span>
-                    </button>
+                    </div>
                   );
                 })}
               </div>
 
-              {/* ── CENTERED NAME, ROLE & DESCRIPTION UNDER THE SPOTLIGHT (NO ARROWS OR DOTS) ── */}
-              <div className="relative z-20 pt-5 mt-1 border-t border-white/10">
-                <div className="max-w-2xl mx-auto text-center space-y-2.5 min-h-[112px] flex flex-col justify-center">
-                  <div className="flex flex-wrap items-center justify-center gap-2">
-                    <span
-                      className={`inline-block px-3 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
-                        BADGE_STYLE_DARK[activeStar.badgeColor]
-                      }`}
+              {/* ── Mobile / Tablet Grid View (Below lg screen size) ── */}
+              <div className="grid lg:hidden grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                {COMPANY_STARS.map((star) => {
+                  const isMobileOpen = star.id === activeId;
+
+                  return (
+                    <div
+                      key={`mob-${star.id}`}
+                      data-star-mobile-id={star.id}
+                      onClick={() => setActiveId(isMobileOpen ? "" : star.id)}
+                      className={`card-3d rounded-xl bg-white p-4 border border-slate-200/80 shadow-2xs transition-all duration-300 cursor-pointer ${isMobileOpen ? "border-[#008BF8] shadow-md ring-1 ring-[#008BF8]/20" : ""
+                        }`}
                     >
-                      {activeStar.role}
-                    </span>
-                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-200">
-                      {activeStar.region}
-                    </span>
-                  </div>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-10 h-10 rounded-full p-[1.5px] shrink-0 bg-gradient-to-tr from-[#008BF8] via-sky-400 to-[#008BF8]"
+                          >
+                            <div className="w-full h-full rounded-full bg-white flex items-center justify-center font-display font-black text-sm text-[#008BF8]">
+                              {star.initials}
+                            </div>
+                          </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                    {activeStar.name}
-                  </h3>
+                          <div>
+                            <h4 className="font-bold text-slate-900 text-sm">{star.name}</h4>
+                            <p className="text-[10px] font-mono font-bold text-slate-500 uppercase">{star.role}</p>
+                          </div>
+                        </div>
 
-                  <p className="text-sm sm:text-[15px] text-slate-300 leading-relaxed max-w-xl mx-auto">
-                    {activeStar.bio}
-                  </p>
-                </div>
+                        <span className={`text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded-full border ${BADGE_STYLE_LIGHT[star.badgeColor]}`}>
+                          {star.shortTag}
+                        </span>
+                      </div>
+
+                      {isMobileOpen && (
+                        <p className="mt-3 pt-2.5 border-t border-slate-100 text-xs text-slate-600 leading-relaxed font-normal">
+                          {star.bio}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
+
             </div>
+
           </div>
         </div>
+
       </ScrollReveal>
     </section>
   );

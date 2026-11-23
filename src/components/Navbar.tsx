@@ -10,26 +10,24 @@ import {
   Menu,
   X,
   ArrowRight,
-  ExternalLink,
   Sparkles,
   Rocket,
   Shield,
   Layers,
   Users,
   Cpu,
-  FileText,
   Video,
   Radio,
-  Calendar,
   Mail,
-  Send,
   HelpCircle,
-  Briefcase,
   Globe,
-  Newspaper,
-  CheckCircle2,
   LayoutGrid,
   Store,
+  FileText,
+  MonitorPlay,
+  Calendar,
+  Headphones,
+  Cloud,
 } from "lucide-react";
 
 const CALENDLY =
@@ -46,6 +44,10 @@ export default function Navbar() {
   const isSolutions = pathname.startsWith("/solutions");
   const isAbout = pathname === "/about";
   const isCareers = pathname === "/careers";
+  const isResources = pathname.startsWith("/resources");
+  const isContact = pathname === "/contact";
+  const isSupport = pathname === "/support";
+  const isPartners = pathname.startsWith("/partners");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,29 +61,32 @@ export default function Navbar() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════
-          1. TOP ANNOUNCEMENT STRIP (STATIC, FULL-STRETCHED, NO MOVEMENT DOTS)
+          1. TOP ANNOUNCEMENT STRIP (HIDDEN ON CAREERS, ABOUT, SUPPORT, CONTACT & PARTNERS)
          ══════════════════════════════════════════════════════════════ */}
-      <div className="relative w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md py-2 px-3 sm:px-4 z-40">
-        <div className="mx-auto max-w-7xl flex items-center justify-center gap-2 sm:gap-3 text-xs">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10.5px] font-extrabold tracking-wider uppercase text-sky-700 bg-sky-50 border border-sky-200 shadow-2xs shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#008BF8]" />
-            NEW LAUNCH
-          </span>
+      {!isCareers && !isAbout && !isSupport && !isContact && !isPartners && (
+        <div className="relative w-full border-b py-2 px-3 sm:px-4 z-40 transition-colors border-slate-200/80 bg-white/95 backdrop-blur-md">
+          <div className="mx-auto max-w-7xl flex items-center justify-center gap-2 sm:gap-3 text-xs">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10.5px] font-extrabold tracking-wider uppercase shadow-2xs shrink-0 text-sky-700 bg-sky-50 border border-sky-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#008BF8]" />
+              NEW LAUNCH
+            </span>
 
-          <span className="font-semibold text-slate-800 truncate text-[11.5px] sm:text-xs">
-            <strong className="font-bold">SaaSNova × SaaSiFy:</strong> First AWS Partner Starter Bundle.
-          </span>
+            <span className="font-semibold truncate text-[11.5px] sm:text-xs text-slate-800">
+              <strong className="font-bold">SaaSNova × SaaSiFy:</strong>{" "}
+              First AWS Partner Starter Bundle.
+            </span>
 
-          <Link
-            href={CALENDLY}
-            target="_blank"
-            className="btn-gradient inline-flex items-center gap-1 px-3 py-1 rounded-full text-white text-[10.5px] font-bold transition-all shadow-2xs cursor-pointer shrink-0"
-          >
-            <span>View Bundle</span>
-            <ArrowRight className="w-3 h-3" />
-          </Link>
+            <Link
+              href={CALENDLY}
+              target="_blank"
+              className="btn-gradient inline-flex items-center gap-1 px-3 py-1 rounded-full text-white text-[10.5px] font-bold transition-all shadow-2xs cursor-pointer shrink-0"
+            >
+              <span>View Bundle</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ══════════════════════════════════════════════════════════════
           2. 3D FLOATING STADIUM GLASS NAVBAR
@@ -566,18 +571,20 @@ export default function Navbar() {
                 About
               </Link>
 
-              {/* ── 3. PARTNERS DROPDOWN (EXACT STRUCTURE FROM saasnova.ai) ── */}
+              {/* ── 3. PARTNERS (DIRECT LINK + DROPDOWN) ── */}
               <div
                 className="relative"
                 onMouseEnter={() => setActiveDropdown("partners")}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <button
-                  type="button"
-                  onClick={() => setActiveDropdown(activeDropdown === "partners" ? null : "partners")}
+                <Link
+                  href="/partners"
+                  onClick={() => setActiveDropdown(null)}
                   className={`flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer ${
-                    activeDropdown === "partners"
-                      ? "text-[#008BF8] bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] font-bold -translate-y-[1px]"
+                    isPartners
+                      ? "text-[#008BF8] font-bold bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] -translate-y-[1px]"
+                      : activeDropdown === "partners"
+                      ? "text-[#008BF8] bg-white/70"
                       : "text-slate-700 hover:text-slate-900 hover:bg-white/60"
                   }`}
                 >
@@ -587,130 +594,74 @@ export default function Navbar() {
                       activeDropdown === "partners" ? "rotate-180 text-[#008BF8]" : "text-slate-400"
                     }`}
                   />
-                </button>
+                </Link>
 
                 {activeDropdown === "partners" && (
-                  <div className="absolute left-0 top-full pt-2.5 w-[440px] animate-in fade-in slide-in-from-top-1 duration-150 z-50">
-                    <div className="card-3d-master rounded-2xl p-4 grid grid-cols-2 gap-3">
-                      <div>
-                        <div className="px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-2">
-                          Hyperscalers
+                  <div className="absolute left-0 top-full pt-2.5 w-[460px] animate-in fade-in slide-in-from-top-1 duration-150 z-50">
+                    <div className="card-3d-master rounded-2xl p-3 space-y-2">
+                      {/* Option 1: Cloud Marketplaces */}
+                      <Link
+                        href="/partners?view=cloud-marketplaces"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group flex items-start gap-3 p-3 rounded-xl hover:bg-sky-50/70 border border-transparent hover:border-sky-200 transition-all"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-sky-100/70 text-[#008BF8] flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-105 transition-transform">
+                          <Cloud className="w-5 h-5" />
                         </div>
-                        <Link
-                          href="#trust"
-                          className="flex items-center gap-2.5 p-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
-                        >
-                          <Image src="/aws-logo.png" alt="AWS" width={18} height={18} className="h-4 w-auto object-contain" />
-                          <div>
-                            <div className="font-bold text-slate-900">AWS Partner</div>
-                            <div className="text-[10.5px] text-slate-500">ACE & Co-Sell</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-slate-900 text-xs sm:text-[13px] group-hover:text-[#008BF8] transition-colors">
+                              Cloud Marketplaces
+                            </span>
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-sky-700 bg-sky-100/70 px-2 py-0.5 rounded-full">
+                              AWS · Azure · GCP
+                            </span>
                           </div>
-                        </Link>
-                        <Link
-                          href="#trust"
-                          className="flex items-center gap-2.5 p-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
-                        >
-                          <Image src="/azure-logo.png" alt="Azure" width={18} height={18} className="h-4 w-auto object-contain" />
-                          <div>
-                            <div className="font-bold text-slate-900">Microsoft Azure</div>
-                            <div className="text-[10.5px] text-slate-500">MACC & IP Co-Sell</div>
-                          </div>
-                        </Link>
-                        <Link
-                          href="#trust"
-                          className="flex items-center gap-2.5 p-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
-                        >
-                          <Image src="/gcp-logo.png" alt="GCP" width={18} height={18} className="h-4 w-auto object-contain" />
-                          <div>
-                            <div className="font-bold text-slate-900">Google Cloud</div>
-                            <div className="text-[10.5px] text-slate-500">Partner Advantage</div>
-                          </div>
-                        </Link>
-                      </div>
+                          <p className="text-[11.5px] text-slate-500 mt-0.5 leading-snug">
+                            Where we list software, co-sell with cloud reps, and unlock enterprise committed spend (MACC / EDP).
+                          </p>
+                        </div>
+                      </Link>
 
-                      <div className="border-l border-slate-100 pl-3">
-                        <div className="px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-2">
-                          Featured Ecosystem
+                      {/* Option 2: Strategic Alliances */}
+                      <Link
+                        href="/partners?view=strategic-alliances"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group flex items-start gap-3 p-3 rounded-xl hover:bg-pink-50/70 border border-transparent hover:border-pink-200 transition-all"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-pink-100/70 text-[#FA0F9C] flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-105 transition-transform">
+                          <Layers className="w-5 h-5" />
                         </div>
-                        <Link href={CALENDLY} target="_blank" className="block p-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 transition">
-                          • <strong>SaaSiFy</strong> · Starter Bundle
-                        </Link>
-                        <Link href="#trust" className="block p-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 transition">
-                          • <strong>WorkSpan</strong> · Co-Sell Platform
-                        </Link>
-                        <Link href="#trust" className="block p-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 transition">
-                          • <strong>Pronix</strong> · Cloud Delivery
-                        </Link>
-                        <Link href="#trust" className="block p-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 transition">
-                          • <strong>Carahsoft</strong> · Public Sector
-                        </Link>
-                      </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-slate-900 text-xs sm:text-[13px] group-hover:text-[#FA0F9C] transition-colors">
+                              Strategic Alliances
+                            </span>
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-pink-700 bg-pink-100/70 px-2 py-0.5 rounded-full">
+                              Tools · Delivery · Gov
+                            </span>
+                          </div>
+                          <p className="text-[11.5px] text-slate-500 mt-0.5 leading-snug">
+                            Our integrated network: SaaSify listing tools, Workspan sync, Pronix engineers &amp; Carahsoft federal contracts.
+                          </p>
+                        </div>
+                      </Link>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* ── 4. RESOURCES DROPDOWN (EXACT STRUCTURE FROM saasnova.ai) ── */}
-              <div
-                className="relative"
-                onMouseEnter={() => setActiveDropdown("resources")}
-                onMouseLeave={() => setActiveDropdown(null)}
+              {/* ── 4. RESOURCES (DIRECT LINK) ── */}
+              <Link
+                href="/resources"
+                className={`px-3 py-1 text-xs rounded-full transition-all ${
+                  isResources
+                    ? "text-[#008BF8] font-bold bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] -translate-y-[1px]"
+                    : "font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60"
+                }`}
               >
-                <button
-                  type="button"
-                  onClick={() => setActiveDropdown(activeDropdown === "resources" ? null : "resources")}
-                  className={`flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer ${
-                    activeDropdown === "resources"
-                      ? "text-[#008BF8] bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] font-bold -translate-y-[1px]"
-                      : "text-slate-700 hover:text-slate-900 hover:bg-white/60"
-                  }`}
-                >
-                  Resources
-                  <ChevronDown
-                    className={`w-3 h-3 transition-transform duration-200 ${
-                      activeDropdown === "resources" ? "rotate-180 text-[#008BF8]" : "text-slate-400"
-                    }`}
-                  />
-                </button>
-
-                {activeDropdown === "resources" && (
-                  <div className="absolute left-0 top-full pt-2.5 w-72 animate-in fade-in slide-in-from-top-1 duration-150 z-50">
-                    <div className="card-3d-master rounded-2xl p-2.5 space-y-1">
-                      <div className="px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 pb-1.5 mb-1">
-                        Proof &amp; Insights
-                      </div>
-                      <Link href="#trust" className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors">
-                        <Layers className="w-4 h-4 text-[#008BF8]" />
-                        <div>
-                          <div className="font-bold text-slate-900">Case Studies</div>
-                          <div className="text-[11px] text-slate-500">11 verified customer transformations</div>
-                        </div>
-                      </Link>
-                      <Link href="#how-we-execute" className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors">
-                        <Rocket className="w-4 h-4 text-[#FA0F9C]" />
-                        <div>
-                          <div className="font-bold text-slate-900">Execution Pipeline</div>
-                          <div className="text-[11px] text-slate-500">Activate ➔ Drive ➔ Convert ➔ Prove</div>
-                        </div>
-                      </Link>
-                      <Link href="#trust" className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors">
-                        <Video className="w-4 h-4 text-[#7C3AED]" />
-                        <div>
-                          <div className="font-bold text-slate-900">The Jen GTM Show</div>
-                          <div className="text-[11px] text-slate-500">Cloud strategy conversations</div>
-                        </div>
-                      </Link>
-                      <Link href="#contact" className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors">
-                        <Radio className="w-4 h-4 text-emerald-600" />
-                        <div>
-                          <div className="font-bold text-slate-900">The Nova Brief</div>
-                          <div className="text-[11px] text-slate-500">Weekly insights directly to inbox</div>
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
+                Resources
+              </Link>
 
               {/* ── 5. CAREERS (DIRECT LINK) ── */}
               <Link
@@ -724,50 +675,30 @@ export default function Navbar() {
                 Careers
               </Link>
 
-              {/* ── 6. CONTACT DROPDOWN (EXACT STRUCTURE FROM saasnova.ai) ── */}
-              <div
-                className="relative"
-                onMouseEnter={() => setActiveDropdown("contact")}
-                onMouseLeave={() => setActiveDropdown(null)}
+              {/* ── 6. CONTACT (DIRECT LINK — SINGLE PAGE) ── */}
+              <Link
+                href="/contact"
+                className={`px-3 py-1 text-xs rounded-full transition-all ${
+                  isContact
+                    ? "text-[#008BF8] font-bold bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] -translate-y-[1px]"
+                    : "font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60"
+                }`}
               >
-                <button
-                  type="button"
-                  onClick={() => setActiveDropdown(activeDropdown === "contact" ? null : "contact")}
-                  className={`flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full transition-all cursor-pointer ${
-                    activeDropdown === "contact"
-                      ? "text-[#008BF8] bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] font-bold -translate-y-[1px]"
-                      : "text-slate-700 hover:text-slate-900 hover:bg-white/60"
-                  }`}
-                >
-                  Contact
-                  <ChevronDown
-                    className={`w-3 h-3 transition-transform duration-200 ${
-                      activeDropdown === "contact" ? "rotate-180 text-[#008BF8]" : "text-slate-400"
-                    }`}
-                  />
-                </button>
+                Contact
+              </Link>
 
-                {activeDropdown === "contact" && (
-                  <div className="absolute right-0 top-full pt-2.5 w-64 animate-in fade-in slide-in-from-top-1 duration-150 z-50">
-                    <div className="card-3d-master rounded-2xl p-2.5 space-y-1">
-                      <Link href="#contact" className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors">
-                        <Mail className="w-4 h-4 text-[#008BF8]" />
-                        <div>
-                          <div className="font-bold text-slate-900">Contact Sales</div>
-                          <div className="text-[11px] text-slate-500">General &amp; partnerships</div>
-                        </div>
-                      </Link>
-                      <Link href="mailto:support@saasnova.ai" className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors">
-                        <HelpCircle className="w-4 h-4 text-emerald-600" />
-                        <div>
-                          <div className="font-bold text-slate-900">Support</div>
-                          <div className="text-[11px] text-slate-500">Help for existing customers</div>
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
+              {/* ── 7. SUPPORT (DIRECT LINK WITH OPERATOR HEADSET LOGO — SINGLE PAGE) ── */}
+              <Link
+                href="/support"
+                className={`flex items-center gap-1.5 px-3 py-1 text-xs rounded-full transition-all ${
+                  isSupport
+                    ? "text-[#008BF8] font-bold bg-gradient-to-b from-white to-slate-50 border border-slate-200/80 shadow-[0_2px_0_#cbd5e1,0_4px_10px_rgba(0,139,248,0.18),inset_0_1px_0_#fff] -translate-y-[1px]"
+                    : "font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60"
+                }`}
+              >
+                <Headphones className="w-3.5 h-3.5 text-[#008BF8] shrink-0" />
+                <span>Support</span>
+              </Link>
             </nav>
 
             {/* ── GET STARTED 3D TACTILE CTA BUTTON ── */}
@@ -905,10 +836,36 @@ export default function Navbar() {
                 </div>
               </div>
               <Link href="/about" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">About</Link>
-              <Link href="#trust" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Partners</Link>
-              <Link href="#how-we-execute" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Resources</Link>
+              <Link
+                href="/partners"
+                onClick={() => setMobileOpen(false)}
+                className={`block px-3 py-1.5 text-xs font-semibold rounded-lg ${
+                  isPartners ? "text-[#008BF8] bg-sky-50 font-bold" : "text-slate-700"
+                }`}
+              >
+                Partners
+              </Link>
+              <Link href="/resources" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Resources</Link>
               <Link href="/careers" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Careers</Link>
-              <Link href="#contact" onClick={() => setMobileOpen(false)} className="block px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-lg">Contact</Link>
+              <Link
+                href="/contact"
+                onClick={() => setMobileOpen(false)}
+                className={`block px-3 py-1.5 text-xs font-semibold rounded-lg ${
+                  isContact ? "text-[#008BF8] bg-sky-50 font-bold" : "text-slate-700"
+                }`}
+              >
+                Contact
+              </Link>
+              <Link
+                href="/support"
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg ${
+                  isSupport ? "text-[#008BF8] bg-sky-50 font-bold" : "text-slate-700"
+                }`}
+              >
+                <Headphones className="w-3.5 h-3.5 text-[#008BF8]" />
+                <span>Support</span>
+              </Link>
               <div className="pt-2 px-2">
                 <Link
                   href={CALENDLY}

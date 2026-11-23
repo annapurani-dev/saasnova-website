@@ -16,7 +16,7 @@ const inter = Inter({
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-jetbrains-mono",
   display: "swap",
   weight: ["500", "700", "800"],
 });
@@ -38,8 +38,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`scroll-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
       <body
-        className="relative flex min-h-screen flex-col antialiased font-[family-name:var(--font-inter)]"
-        style={{ backgroundColor: "transparent", color: "#0a0e27" }}
+        className="relative flex min-h-screen flex-col antialiased font-sans text-[#0F1923]"
+        style={{ backgroundColor: "transparent" }}
       >
         <SiteBackdrop />
         <Navbar />

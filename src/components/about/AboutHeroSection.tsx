@@ -1,163 +1,181 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Check } from "lucide-react";
-import TiltCard from "@/components/TiltCard";
+import ScrollReveal from "@/components/ScrollReveal";
 
-type CloudId = "aws" | "azure" | "gcp";
-
-interface CloudExecutionCard {
-  id: CloudId;
-  name: string;
-  vendor: string;
-  logo: string;
-  topAccentClass: string;
-  checkClass: string;
-  items: string[];
-}
-
-const CLOUD_CARDS: CloudExecutionCard[] = [
+const OPERATING_FOUNDATIONS = [
   {
-    id: "aws",
-    name: "AWS Marketplace",
-    vendor: "Amazon Web Services",
-    logo: "/aws-logo.png",
-    topAccentClass: "from-amber-400/90 via-amber-300/70 to-transparent",
-    checkClass: "text-amber-400",
-    items: [
-      "Marketplace Listing Activation",
-      "ISV Accelerate Activation",
-      "Field Relationship Building",
-    ],
+    number: "01",
+    title: "Execution, not advisory.",
+    description: "Named deliverables and active field motion—never theoretical slide decks.",
+    accent: "sky" as const,
   },
   {
-    id: "azure",
-    name: "Azure Marketplace",
-    vendor: "Microsoft Azure",
-    logo: "/azure-logo.png",
-    topAccentClass: "from-sky-400/90 via-sky-300/70 to-transparent",
-    checkClass: "text-sky-400",
-    items: [
-      "Marketplace Listing Activation",
-      "Partner Program Navigation",
-      "Microsoft Field Engagement",
-    ],
+    number: "02",
+    title: "True multi-cloud depth.",
+    description: "Equal operational depth across AWS, Azure, and Google Cloud ecosystems.",
+    accent: "pink" as const,
   },
   {
-    id: "gcp",
-    name: "GCP Marketplace",
-    vendor: "Google Cloud",
-    logo: "/gcp-logo.png",
-    topAccentClass: "from-blue-400/90 via-cyan-300/70 to-transparent",
-    checkClass: "text-blue-400",
-    items: [
-      "Partner Advantage Activation",
-      "Google Cloud Field Enablement",
-      "Pipeline Visibility",
-    ],
+    number: "03",
+    title: "Board-visible output.",
+    description: "Verifiable co-sell pipeline, partner alignment, and closed revenue.",
+    accent: "sky" as const,
   },
 ];
 
 export default function AboutHeroSection() {
-  const [selectedCloud, setSelectedCloud] = useState<CloudId>("aws");
-
   return (
     <section
       id="about-hero"
       data-nav-title="About & Cloud"
-      data-nav-subtitle="Cloud-Execution-Native"
-      className="relative px-3 pt-3 pb-6 sm:px-6 sm:pt-4 sm:pb-8 lg:px-8 lg:min-h-[calc(100vh-7rem)] lg:flex lg:items-center scroll-mt-28"
+      data-nav-subtitle="Execution Over Advice"
+      className="relative px-4 sm:px-6 lg:px-8 min-h-[640px] lg:min-h-[700px] flex flex-col justify-center -mt-[60px] sm:-mt-[62px] pt-[86px] sm:pt-[96px] pb-12 sm:pb-16 overflow-hidden scroll-mt-28 lg:scroll-mt-32 select-none"
     >
-      {/* Ambient Top Glow */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-full max-w-6xl h-[360px] bg-gradient-to-b from-[#008BF8]/15 via-[#FA0F9C]/10 to-transparent blur-3xl" />
+      {/* ── Atmospheric Radial Floor Light beneath the Floating Stage ── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-20 left-1/2 -translate-x-1/2 w-[950px] lg:w-[1300px] h-[550px] bg-[radial-gradient(ellipse_at_center,rgba(0,139,248,0.18)_0%,rgba(186,230,253,0.25)_35%,rgba(250,15,156,0.06)_65%,transparent_80%)] blur-[90px]"
+      />
 
-      {/* Master Dark Blue Cockpit Card */}
-      <div className="card-3d-master-dark relative z-10 mx-auto w-full max-w-7xl p-[2.5px] rounded-[2.25rem] bg-gradient-to-r from-[#FA0F9C] via-[#c026d3] to-[#008BF8] select-none">
-        <div className="relative overflow-hidden rounded-[calc(2.25rem-2.5px)] bg-[#070D1E] px-5 py-7 sm:px-9 sm:py-9 lg:px-12 lg:py-10 text-white backdrop-blur-2xl space-y-6">
-          {/* Top specular rim highlight & ambient glows */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/90 via-pink-400/90 to-transparent" />
-          <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-full max-w-4xl h-56 bg-gradient-to-r from-[#008BF8]/22 via-[#FA0F9C]/18 to-[#008BF8]/22 blur-[100px]" />
+      <ScrollReveal once={false} variant="up" className="relative z-10 mx-auto w-full max-w-6xl">
+        <div className="relative mx-auto w-full">
 
-          {/* Header Narrative */}
-          <div className="relative z-10 max-w-4xl mx-auto text-center space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-[11px] font-mono font-bold tracking-wider uppercase text-slate-200 shadow-[0_3px_0_rgba(0,0,0,0.4)] backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>ABOUT SAASNOVA · BUILT BY PRACTITIONERS · OPERATOR-LED EXECUTION</span>
-            </div>
+          {/* ════════════════════════════════════════════════════════════════════════════
+              SIGNATURE 3D ELEVATED ASYMMETRICAL STAGE (THE FIXED HERO BACKGROUND)
+              Unified signature backdrop across all non-homepage hero sections:
+              - 80px Top-Left & Bottom-Right / 24px Top-Right & Bottom-Left
+              - Luminous sky-tint gradient (#BAE6FD -> #F2F8FE)
+              - 3D top specular gleam + deep multi-tier elevation drop shadow
+              ════════════════════════════════════════════════════════════════════════════ */}
+          <div
+            style={{
+              background:
+                "linear-gradient(135deg, #BAE6FD 0%, #CEEAFE 30%, #E2F2FE 60%, #EDF6FE 85%, #F2F8FE 100%)",
+              boxShadow:
+                "0 35px 75px -15px rgba(15, 23, 42, 0.18), 0 18px 38px -10px rgba(0, 139, 248, 0.22), 0 4px 12px rgba(15, 23, 42, 0.06), inset 0 2px 1px rgba(255, 255, 255, 0.95), inset 0 -2px 3px rgba(0, 139, 248, 0.12)",
+            }}
+            className="relative overflow-hidden rounded-tl-[68px] sm:rounded-tl-[80px] rounded-br-[68px] sm:rounded-br-[80px] rounded-tr-[24px] rounded-bl-[24px] px-6 py-10 sm:px-12 sm:py-12 lg:px-14 lg:py-12"
+          >
+            {/* Specular Ambient Glow inside Stage */}
+            <div className="pointer-events-none absolute -top-20 left-1/3 w-[500px] h-[260px] rounded-full bg-white/60 blur-[70px]" />
+            <div className="pointer-events-none absolute bottom-0 left-0 w-[460px] h-[300px] rounded-full bg-[#008BF8]/20 blur-[100px]" />
 
-            <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black tracking-tight text-white leading-[1.12]">
-              Not AWS-only. Not cloud-agnostic.
-              <br className="hidden sm:inline" />{" "}
-              <span className="text-gradient">Cloud-execution-native.</span>
-            </h1>
+            <div className="relative z-10">
+              {/* ── APPROACH 1: DYNAMIC 2-COLUMN SPLIT INSIDE THE SIGNATURE STAGE ── */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
 
-            <p className="text-sm sm:text-[15px] text-slate-300 leading-relaxed max-w-2xl mx-auto">
-              SaaSNova is the GTM execution engine between ISVs and the cloud revenue their hyperscaler investment demands. GTM motions across AWS, Azure, and GCP are fundamentally different—we operate with execution depth across all three, not a primary cloud with two afterthoughts.
-            </p>
-          </div>
+                {/* ── LEFT COLUMN (7 cols): Eyebrow, Left-Aligned Headline, Narrative & Cloud Badges ── */}
+                <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-left">
+                  {/* Eyebrow Pill — strictly "About SaaSNova" */}
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/95 border border-sky-300/80 text-xs font-mono font-bold uppercase tracking-wider text-slate-800 shadow-sm backdrop-blur-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#008BF8]" />
+                    <span>About SaaSNova</span>
+                  </div>
 
-          {/* Interactive 3 Cloud Marketplace Cards inside Dark Recessed Well */}
-          <div className="relative z-10 well-recessed-dark rounded-[1.75rem] p-3.5 sm:p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {CLOUD_CARDS.map((card) => {
-                const isActive = selectedCloud === card.id;
-                return (
-                  <TiltCard
-                    key={card.id}
-                    onClick={() => setSelectedCloud(card.id)}
-                    variant={isActive ? "dark-active" : "dark"}
-                    intensity={7}
-                    className="relative p-5 rounded-2xl cursor-pointer overflow-hidden flex flex-col justify-between"
-                  >
-                    {/* Subtle Cloud Rim Top Glow */}
-                    <div
-                      className={`pointer-events-none absolute inset-x-0 top-0 h-[2.5px] bg-gradient-to-r ${card.topAccentClass}`}
-                    />
+                  {/* Bold Left-Aligned Headline */}
+                  <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black tracking-tight text-slate-900 leading-[1.12]">
+                    Why execution, not advice, is the only thing that{" "}
+                    <span className="text-gradient">produces pipeline.</span>
+                  </h1>
 
-                    <div className="space-y-3.5">
-                      {/* Header with Cloud Logo + Marketplace Name */}
-                      <div className="flex items-center gap-3">
-                        <div className="icon-3d flex items-center justify-center w-10 h-10 rounded-xl shrink-0">
-                          <Image
-                            src={card.logo}
-                            alt={card.vendor}
-                            width={22}
-                            height={22}
-                            priority
-                            fetchPriority="high"
-                            className="h-4.5 w-auto object-contain"
-                          />
-                        </div>
-                        <div className="min-w-0">
-                          <h2 className="text-sm sm:text-base font-bold text-white leading-tight">
-                            {card.name}
-                          </h2>
-                          <p className="text-xs text-slate-400 font-medium mt-0.5">
-                            {card.vendor}
-                          </p>
+                  {/* Founding Thesis Narrative (Word-for-Word, Zero Additions) */}
+                  <p className="text-sm sm:text-base lg:text-[16px] text-slate-700 leading-relaxed font-normal max-w-xl">
+                    SaaSNova was founded to bridge the gap between passive listing software and high-level consultancies. We embed directly with B2B SaaS teams as boots-on-the-ground operators across AWS, Azure, and Google Cloud.
+                  </p>
+
+                  {/* 3 Hyperscaler Cloud Badges */}
+                  <div className="pt-1 flex items-center">
+                    <div className="flex items-center gap-2 p-1.5 rounded-xl bg-white/90 border border-sky-200/90 shadow-xs backdrop-blur-sm">
+                      <span
+                        title="Amazon Web Services"
+                        className="inline-flex items-center justify-center h-8 px-2.5 rounded-lg bg-sky-50/70 border border-sky-100"
+                      >
+                        <Image
+                          src="/aws-logo.png"
+                          alt="AWS"
+                          width={18}
+                          height={18}
+                          className="h-4 w-auto object-contain"
+                        />
+                      </span>
+                      <span
+                        title="Microsoft Azure"
+                        className="inline-flex items-center justify-center h-8 px-2.5 rounded-lg bg-sky-50/70 border border-sky-100"
+                      >
+                        <Image
+                          src="/azure-logo.png"
+                          alt="Azure"
+                          width={18}
+                          height={18}
+                          className="h-4 w-auto object-contain"
+                        />
+                      </span>
+                      <span
+                        title="Google Cloud"
+                        className="inline-flex items-center justify-center h-8 px-2.5 rounded-lg bg-pink-50/70 border border-pink-100"
+                      >
+                        <Image
+                          src="/gcp-logo.png"
+                          alt="GCP"
+                          width={18}
+                          height={18}
+                          className="h-4 w-auto object-contain"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── RIGHT COLUMN (5 cols): The 3 Operating Foundations Vertical Deck ── */}
+                <div className="lg:col-span-5 flex flex-col justify-center space-y-3">
+                  {OPERATING_FOUNDATIONS.map((pillar) => {
+                    const isPink = pillar.accent === "pink";
+                    const badgeCls = isPink
+                      ? "text-[#FA0F9C] bg-pink-50 border-pink-200 shadow-2xs"
+                      : "text-[#008BF8] bg-sky-50 border-sky-200 shadow-2xs";
+                    const hoverBg = isPink ? "hover:bg-pink-50/50" : "hover:bg-sky-50/50";
+
+                    return (
+                      <div
+                        key={pillar.number}
+                        style={{
+                          boxShadow:
+                            "0 10px 25px -4px rgba(0, 139, 248, 0.12), 0 4px 10px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1)",
+                        }}
+                        className={`rounded-2xl bg-white/95 backdrop-blur-md border border-white/90 p-4.5 sm:p-5 ${hoverBg} transition-all duration-300 cursor-default`}
+                      >
+                        <div className="flex items-start gap-3.5">
+                          <span
+                            className={`inline-flex items-center justify-center px-2.5 py-0.5 rounded-md text-xs font-mono font-black tracking-wide border shrink-0 mt-0.5 ${badgeCls}`}
+                          >
+                            {pillar.number}
+                          </span>
+                          <div className="space-y-1">
+                            <h3 className="text-base font-bold text-slate-900 tracking-tight leading-snug">
+                              {pillar.title}
+                            </h3>
+                            <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed font-normal">
+                              {pillar.description}
+                            </p>
+                          </div>
                         </div>
                       </div>
+                    );
+                  })}
+                </div>
 
-                      {/* Execution Capabilities List */}
-                      <ul className="space-y-2 pt-2 border-t border-white/10">
-                        {card.items.map((item) => (
-                          <li
-                            key={item}
-                            className="flex items-center gap-2.5 text-xs sm:text-[13px] text-slate-200 font-medium"
-                          >
-                            <Check className={`w-4 h-4 shrink-0 ${card.checkClass}`} />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </TiltCard>
-                );
-              })}
+              </div>
             </div>
+
           </div>
+
         </div>
+      </ScrollReveal>
+
+      {/* ── Precision Horizon Gradient Line Connecting to Journey Section ── */}
+      <div className="absolute inset-x-0 bottom-0 h-[1.5px] pointer-events-none z-30" aria-hidden="true">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FA0F9C]/50 via-[#008BF8]/60 to-transparent opacity-90" />
       </div>
     </section>
   );

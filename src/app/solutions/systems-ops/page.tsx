@@ -125,117 +125,115 @@ export default function SystemsOpsPage() {
           </div>
 
           <div className="well-recessed rounded-[2rem] p-4 sm:p-6 max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* System 1: PRMaaS */}
-            <TiltCard
-              onClick={() => setActiveTab("prmaas")}
-              variant="light"
-              intensity={7}
-              className={`relative rounded-3xl p-7 flex flex-col justify-between cursor-pointer transition-all duration-300 ${
-                activeTab === "prmaas"
-                  ? "border-2 border-slate-900/20 ring-2 ring-slate-900/10 -translate-y-1 shadow-[0_20px_45px_-10px_rgba(15,23,42,0.18)]"
-                  : ""
-              }`}
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-start">
-                  <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200/80 shadow-[0_2px_0_#e2e8f0]">
-                    FREE ENGAGEMENT · PRM
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900">PRMaaS</h3>
-                  <p className="text-xs font-semibold text-[#008BF8] mt-0.5">
-                    Partner Revenue Measurement
-                  </p>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  End-to-end AWS Partner Revenue Measurement implementing resource tagging, Terraform/CloudFormation/CDK IaC integration, and ongoing attribution compliance.
-                </p>
-                <div className="pt-2 border-t border-slate-100 space-y-2 text-xs text-slate-700">
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Architecture-aware (Partner, Customer, Hybrid)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Native Terraform, CloudFormation &amp; CDK tagging</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Zero engineering disruption · Free engagement</span>
-                  </div>
-                </div>
-              </div>
-              <a
-                href="#prmaas"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleJumpToSystem("prmaas");
-                }}
-                className="btn-gradient btn-3d mt-6 inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-white text-xs font-bold transition-all"
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* System 1: PRMaaS */}
+              <TiltCard
+                onClick={() => setActiveTab("prmaas")}
+                variant="light"
+                intensity={7}
+                className={`relative rounded-3xl p-7 flex flex-col justify-between cursor-pointer transition-all duration-300 ${activeTab === "prmaas"
+                    ? "border-2 border-slate-900/20 ring-2 ring-slate-900/10 -translate-y-1 shadow-[0_20px_45px_-10px_rgba(15,23,42,0.18)]"
+                    : ""
+                  }`}
               >
-                <span>View PRMaaS Breakdown ↓</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </a>
-            </TiltCard>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-start">
+                    <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200/80 shadow-[0_2px_0_#e2e8f0]">
+                      FREE ENGAGEMENT · PRM
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-900">PRMaaS</h3>
+                    <p className="text-xs font-semibold text-[#008BF8] mt-0.5">
+                      Partner Revenue Measurement
+                    </p>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    End-to-end AWS Partner Revenue Measurement implementing resource tagging, Terraform/CloudFormation/CDK IaC integration, and ongoing attribution compliance.
+                  </p>
+                  <div className="pt-2 border-t border-slate-100 space-y-2 text-xs text-slate-700">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span>Architecture-aware (Partner, Customer, Hybrid)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span>Native Terraform, CloudFormation &amp; CDK tagging</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span>Zero engineering disruption · Free engagement</span>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  href="#prmaas"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleJumpToSystem("prmaas");
+                  }}
+                  className="btn-gradient btn-3d mt-6 inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-white text-xs font-bold transition-all"
+                >
+                  <span>View PRMaaS Breakdown ↓</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </a>
+              </TiltCard>
 
-            {/* System 2: PCMaaS */}
-            <TiltCard
-              onClick={() => setActiveTab("pcmaas")}
-              variant="light"
-              intensity={7}
-              className={`relative rounded-3xl p-7 flex flex-col justify-between cursor-pointer transition-all duration-300 ${
-                activeTab === "pcmaas"
-                  ? "border-2 border-[#FA0F9C]/55 ring-2 ring-[#FA0F9C]/15 -translate-y-1 shadow-[0_20px_45px_-10px_rgba(250,15,156,0.2)]"
-                  : ""
-              }`}
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-start">
-                  <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-pink-50 text-[#FA0F9C] border border-pink-200/80 shadow-[0_2px_0_#fbcfe8]">
-                    FREE ENGAGEMENT · PCM
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900">PCMaaS</h3>
-                  <p className="text-xs font-semibold text-[#FA0F9C] mt-0.5">
-                    Partner Portal Migration Readiness
-                  </p>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Frictionless readiness for the unified AWS Partner Central and Marketplace console—aligning IAM, SSO, Entra ID permissions, and account linking.
-                </p>
-                <div className="pt-2 border-t border-pink-100 space-y-2 text-xs text-slate-700">
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>IAM, SSO &amp; Entra ID permission alignment</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Zero duplicate business registration risk</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Partner &amp; Marketplace portal parity validation</span>
-                  </div>
-                </div>
-              </div>
-              <a
-                href="#pcmaas"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleJumpToSystem("pcmaas");
-                }}
-                className="btn-gradient btn-3d mt-6 inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-white text-xs font-bold transition-all"
+              {/* System 2: PCMaaS */}
+              <TiltCard
+                onClick={() => setActiveTab("pcmaas")}
+                variant="light"
+                intensity={7}
+                className={`relative rounded-3xl p-7 flex flex-col justify-between cursor-pointer transition-all duration-300 ${activeTab === "pcmaas"
+                    ? "border-2 border-[#FA0F9C]/55 ring-2 ring-[#FA0F9C]/15 -translate-y-1 shadow-[0_20px_45px_-10px_rgba(250,15,156,0.2)]"
+                    : ""
+                  }`}
               >
-                <span>View PCMaaS Breakdown ↓</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </a>
-            </TiltCard>
-          </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-start">
+                    <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-pink-50 text-[#FA0F9C] border border-pink-200/80 shadow-[0_2px_0_#fbcfe8]">
+                      FREE ENGAGEMENT · PCM
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-900">PCMaaS</h3>
+                    <p className="text-xs font-semibold text-[#FA0F9C] mt-0.5">
+                      Partner Portal Migration Readiness
+                    </p>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Frictionless readiness for the unified AWS Partner Central and Marketplace console—aligning IAM, SSO, Entra ID permissions, and account linking.
+                  </p>
+                  <div className="pt-2 border-t border-pink-100 space-y-2 text-xs text-slate-700">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span>IAM, SSO &amp; Entra ID permission alignment</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span>Zero duplicate business registration risk</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <span>Partner &amp; Marketplace portal parity validation</span>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  href="#pcmaas"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleJumpToSystem("pcmaas");
+                  }}
+                  className="btn-gradient btn-3d mt-6 inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-white text-xs font-bold transition-all"
+                >
+                  <span>View PCMaaS Breakdown ↓</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </a>
+              </TiltCard>
+            </div>
           </div>
         </ScrollReveal>
       </section>

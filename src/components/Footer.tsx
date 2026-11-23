@@ -22,7 +22,7 @@ export default function Footer() {
   return (
     <footer className="relative w-full bg-[#070D1E] overflow-hidden text-slate-300 rounded-none">
       {/* ── SIGNATURE GRADIENT TOP BORDER ACROSS SCREEN ── */}
-      <div className="w-full h-[2.5px] bg-gradient-to-r from-[#FA0F9C] via-[#7C3AED] to-[#008BF8]" />
+      <div className="w-full h-[2.5px] bg-gradient-to-r from-[#FA0F9C] to-[#008BF8]" />
 
       {/* Subtle ambient luminous glows across dark blue cockpit */}
       <div className="pointer-events-none absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-[#008BF8]/12 blur-[130px]" />
@@ -34,23 +34,18 @@ export default function Footer() {
           
           {/* ── COLUMN 1: BRAND, HYPERSCALERS & SOCIAL (lg:col-span-3) ── */}
           <div className="col-span-2 lg:col-span-3 space-y-3">
-            <Link href="/" className="flex items-center gap-2.5 group">
+            <Link href="/" className="inline-flex flex-col gap-1 group">
               <Image
-                src="/logo-favicon.png"
+                src="/logo-white.png"
                 alt="SaaSNova"
-                width={32}
-                height={32}
+                width={155}
+                height={42}
                 priority
-                className="h-8 w-8 object-contain transition-transform group-hover:scale-105"
+                className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-105"
               />
-              <div>
-                <span className="font-display text-xl font-black tracking-tight text-white block leading-none">
-                  SaaS<span className="text-gradient">Nova</span>
-                </span>
-                <span className="text-[9px] font-mono tracking-widest text-slate-400 uppercase">
-                  WOMEN-OWNED BUSINESS
-                </span>
-              </div>
+              <span className="text-[9px] font-mono tracking-widest text-slate-400 uppercase">
+                WOMEN-OWNED BUSINESS
+              </span>
             </Link>
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-xs">
@@ -94,16 +89,6 @@ export default function Footer() {
                   <path d="M21.582 6.186c-.23-.86-.908-1.538-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418c-.86.23-1.538.908-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814c.23.86.908 1.538 1.768 1.768 1.56.418 7.814.418 7.814.418s6.254 0 7.814-.418c.86-.23 1.538-.908 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM9.996 15.005l.005-6 5.207 3.005-5.212 2.995z" />
                 </svg>
               </a>
-
-              <a
-                href="https://x.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-6 w-6 items-center justify-center rounded border border-white/10 bg-white/5 text-slate-200 transition-all hover:bg-white/15 hover:scale-105"
-                aria-label="X"
-              >
-                <span className="text-[10px] font-bold font-sans">𝕏</span>
-              </a>
             </div>
           </div>
 
@@ -144,8 +129,9 @@ export default function Footer() {
               <li><Link href="/about" className="text-slate-400 hover:text-white transition">About &amp; Team</Link></li>
               <li><Link href="#trust" className="text-slate-400 hover:text-white transition">Case Studies</Link></li>
               <li><Link href="#trust" className="text-slate-400 hover:text-white transition">The Jen GTM Show</Link></li>
-              <li><Link href="#trust" className="text-slate-400 hover:text-white transition">Partners</Link></li>
+              <li><Link href="/partners" className="text-slate-400 hover:text-white transition">Partners</Link></li>
               <li><Link href="/careers" className="text-slate-400 hover:text-white transition">Careers</Link></li>
+              <li><Link href="/support" className="text-slate-400 hover:text-white transition">Client Support</Link></li>
             </ul>
           </div>
 

@@ -76,7 +76,11 @@ export function scrollToSectionId(
     Math.round(targetRect.top + currentScrollY + sectionPaddingTop - headerHeight - 18)
   );
 
-  window.scrollTo({ top: targetY, behavior });
+  try {
+    sectionEl.scrollIntoView({ behavior: behavior || "smooth", block: "start" });
+  } catch {
+    window.scrollTo({ top: targetY, behavior });
+  }
   return true;
 }
 

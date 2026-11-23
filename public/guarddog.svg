@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 34" fill="none">
+  <rect x="3" y="6" width="22" height="22" rx="6" fill="#008BF8"/>
+  <path d="M14 9.5L8.5 13V18.5C8.5 22.2 11 25.1 14 26C17 25.1 19.5 22.2 19.5 18.5V13L14 9.5Z" fill="white"/>
+  <text x="31" y="21.5" fill="#0F172A" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="-0.2">GuardDog<tspan fill="#008BF8">.ai</tspan></text>
+</svg>

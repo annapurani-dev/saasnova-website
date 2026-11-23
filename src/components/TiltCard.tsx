@@ -14,7 +14,7 @@ interface TiltCardProps {
 export default function TiltCard({
   children,
   className = "",
-  intensity = 8,
+  intensity = 5,
   float = false,
   variant = "light",
   onClick,
@@ -38,14 +38,16 @@ export default function TiltCard({
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    const ry = (x - 0.5) * intensity;
-    const rx = (0.5 - y) * intensity;
+    // Calibrated gentle tilt (max 4.5deg) for weighted architectural glass feel
+    const calibrated = Math.min(intensity, 5);
+    const ry = (x - 0.5) * calibrated;
+    const rx = (0.5 - y) * calibrated;
 
     if (raf.current) cancelAnimationFrame(raf.current);
     raf.current = requestAnimationFrame(() => {
       el.style.setProperty("--rx", `${rx.toFixed(2)}deg`);
       el.style.setProperty("--ry", `${ry.toFixed(2)}deg`);
-      el.style.setProperty("--lift", variant === "dark-active" ? "-10px" : "-7px");
+      el.style.setProperty("--lift", variant === "dark-active" ? "-5px" : "-3.5px");
       el.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
       el.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
       el.dataset.tilting = "true";

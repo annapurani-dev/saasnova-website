@@ -1,31 +1,23 @@
-/** Clean, architectural backdrop matching reference saasnova.ai: crisp white base with localized brand blue and pink gradient glows */
+/** Clean architectural backdrop aligned with SaaSNova brand palette (#FFFFFF base, #008BF8 Blue, #FA0F9C Pink). */
 export default function SiteBackdrop() {
   return (
     <div
       aria-hidden
       className="site-backdrop pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      {/* ── Base crisp white canvas ── */}
+      {/* Base crisp white canvas */}
       <div className="absolute inset-0 bg-white" />
 
-      {/* ── Localized Brand Pink & Blue Gradient Glows (Matching Reference) ── */}
-      {/* Top-Left SaaSNova Blue Glow (behind headline) */}
-      <div className="absolute -top-[5%] left-[5%] w-[55vw] max-w-[700px] h-[550px] rounded-full bg-gradient-to-br from-[#008BF8]/22 via-[#008BF8]/10 to-transparent blur-[110px]" />
+      {/* Localized Brand Blue & Pink Ambient Glows */}
+      <div className="absolute -top-[6%] left-[6%] h-[520px] w-[52vw] max-w-[680px] rounded-full bg-gradient-to-br from-[#008BF8]/16 via-[#008BF8]/6 to-transparent blur-[110px]" />
+      <div className="absolute top-[2%] right-[6%] h-[500px] w-[48vw] max-w-[620px] rounded-full bg-gradient-to-bl from-[#FA0F9C]/14 via-[#FA0F9C]/5 to-transparent blur-[110px]" />
+      <div className="absolute top-[35%] -left-[6%] h-[520px] w-[46vw] max-w-[600px] rounded-full bg-gradient-to-tr from-[#008BF8]/14 via-[#008BF8]/5 to-transparent blur-[120px]" />
+      <div className="absolute top-[42%] -right-[6%] h-[520px] w-[46vw] max-w-[600px] rounded-full bg-gradient-to-tl from-[#FA0F9C]/14 via-[#FA0F9C]/5 to-transparent blur-[120px]" />
+      <div className="absolute top-[70%] left-[8%] h-[480px] w-[44vw] max-w-[560px] rounded-full bg-gradient-to-tr from-[#008BF8]/12 to-transparent blur-[120px]" />
+      <div className="absolute top-[78%] right-[8%] h-[480px] w-[44vw] max-w-[560px] rounded-full bg-gradient-to-tl from-[#FA0F9C]/12 to-transparent blur-[120px]" />
 
-      {/* Top-Right SaaSNova Pink Glow (behind video card) */}
-      <div className="absolute top-[2%] right-[5%] w-[50vw] max-w-[650px] h-[550px] rounded-full bg-gradient-to-bl from-[#FA0F9C]/25 via-[#C026D3]/12 to-transparent blur-[110px]" />
-
-      {/* Mid-Left Blue/Violet Ambient Accent */}
-      <div className="absolute top-[45%] -left-[5%] w-[45vw] max-w-[600px] h-[500px] rounded-full bg-gradient-to-tr from-[#008BF8]/18 via-[#7C3AED]/10 to-transparent blur-[120px]" />
-
-      {/* Mid-Right Pink Ambient Accent */}
-      <div className="absolute top-[52%] -right-[5%] w-[45vw] max-w-[600px] h-[500px] rounded-full bg-gradient-to-tl from-[#FA0F9C]/20 via-[#FA0F9C]/8 to-transparent blur-[120px]" />
-
-      {/* Bottom Soft Diffuse Glow */}
-      <div className="absolute bottom-[2%] left-[20%] w-[60vw] max-w-[800px] h-[450px] rounded-full bg-gradient-to-t from-[#008BF8]/15 via-[#FA0F9C]/12 to-transparent blur-[120px]" />
-
-      {/* ── Complete Architectural Checkboxes Grid Pattern ── */}
-      <div className="absolute inset-0 bg-grid-checks opacity-80" />
+      {/* Subtle architectural grid checks matching homepage */}
+      <div className="absolute inset-0 bg-grid-checks opacity-65" />
     </div>
   );
 }
